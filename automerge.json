@@ -10,7 +10,7 @@
     },
     {
       "description": "Automerge lock file maintenance",
-      "matchDatasources": ["npm"],
+      "matchUpdateTypes": ["lockFileMaintenance"],
       "automerge": true
     },
     {
