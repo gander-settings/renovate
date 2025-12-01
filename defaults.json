@@ -8,12 +8,5 @@
   ],
   "dependencyDashboard": false,
   "minimumReleaseAge": "3 days",
-  "labels": ["dependencies"],
-  "packageRules": [
-    {
-      "matchUpdateTypes": ["minor", "patch"],
-      "automerge": false,
-      "platformAutomerge": false
-    }
-  ]
+  "labels": ["dependencies"]
 }
