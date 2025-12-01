@@ -1,0 +1,23 @@
+{
+	"$schema": "https://docs.renovatebot.com/renovate-schema.json",
+	"extends": ["github>gander-settings/renovate:defaults"],
+  "packageRules": [
+    {
+      "description": "Automerge dev deps (patch/minor)",
+      "matchDepTypes": ["devDependencies"],
+      "matchUpdateTypes": ["patch", "minor"],
+      "automerge": true
+    },
+    {
+      "description": "Automerge lock file maintenance",
+      "matchDatasources": ["npm"],
+      "automerge": true
+    },
+    {
+      "description": "Block automerge for major versions",
+      "matchUpdateTypes": ["major"],
+      "automerge": false
+    }
+  ],
+  "platformAutomerge": true
+}
