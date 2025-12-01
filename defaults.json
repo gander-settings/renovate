@@ -6,7 +6,8 @@
     ":semanticCommits",
     "group:monorepos"
   ],
-  "minimumReleaseAge": "7 days",
+  "dependencyDashboard": false,
+  "minimumReleaseAge": "3 days",
   "labels": ["dependencies"],
   "packageRules": [
     {
