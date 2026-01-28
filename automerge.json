@@ -1,6 +1,10 @@
 {
-	"$schema": "https://docs.renovatebot.com/renovate-schema.json",
-	"extends": ["github>gander-settings/renovate:defaults"],
+  "$schema": "https://docs.renovatebot.com/renovate-schema.json",
+  "extends": ["github>gander-settings/renovate:defaults"],
+  "automerge": true,
+  "automergeType": "pr",
+  "platformAutomerge": true,
+  "rebaseWhen": "auto",
   "packageRules": [
     {
       "description": "Automerge dev deps (patch/minor)",
@@ -18,6 +22,5 @@
       "matchUpdateTypes": ["major"],
       "automerge": false
     }
-  ],
-  "platformAutomerge": true
+  ]
 }
