@@ -1,8 +1,6 @@
 {
   "$schema": "https://docs.renovatebot.com/renovate-schema.json",
   "extends": ["github>gander-settings/renovate:automerge"],
-  "automerge": false,
-  "automergeType": "pr",
   "platformAutomerge": true,
   "prCreation": "immediate",
   "rebaseWhen": "auto",
