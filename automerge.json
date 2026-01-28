@@ -1,15 +1,13 @@
 {
   "$schema": "https://docs.renovatebot.com/renovate-schema.json",
   "extends": ["github>gander-settings/renovate:defaults"],
-  "automerge": false,
-  "automergeType": "pr",
   "platformAutomerge": true,
   "rebaseWhen": "auto",
   "packageRules": [
     {
       "description": "Automerge dev deps (patch/minor)",
       "matchDepTypes": ["devDependencies"],
-      "matchUpdateTypes": ["patch", "minor"],
+      "matchUpdateTypes": ["patch"],
       "automerge": true
     },
     {
@@ -19,7 +17,7 @@
     },
     {
       "description": "Block automerge for major versions",
-      "matchUpdateTypes": ["major"],
+      "matchUpdateTypes": ["major", "minor"],
       "automerge": false
     }
   ]
