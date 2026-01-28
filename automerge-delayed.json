@@ -5,7 +5,7 @@
   "automergeType": "pr",
   "platformAutomerge": true,
   "prCreation": "immediate",
-  "rebaseWhen": "never",
+  "rebaseWhen": "auto",
   "minimumReleaseAge": "3 days",
   "minimumReleaseAgeBehaviour": "timestamp-optional"
 }
