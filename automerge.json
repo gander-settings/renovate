@@ -5,7 +5,7 @@
   "rebaseWhen": "auto",
   "packageRules": [
     {
-      "description": "Automerge dev deps (patch/minor)",
+      "description": "Automerge dev deps (patch)",
       "matchDepTypes": ["devDependencies"],
       "matchUpdateTypes": ["patch"],
       "automerge": true
@@ -16,7 +16,7 @@
       "automerge": true
     },
     {
-      "description": "Block automerge for major versions",
+      "description": "Block automerge for major and minor versions",
       "matchUpdateTypes": ["major", "minor"],
       "automerge": false
     }
