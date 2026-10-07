@@ -3,11 +3,17 @@
   "extends": ["github>gander-settings/renovate:defaults"],
   "platformAutomerge": true,
   "rebaseWhen": "auto",
+  "minimumReleaseAgeBehaviour": "timestamp-optional",
   "packageRules": [
     {
-      "description": "Automerge dev deps (patch)",
-      "matchDepTypes": ["devDependencies"],
+      "description": "Automerge patch updates (all dependencies)",
       "matchUpdateTypes": ["patch"],
+      "automerge": true
+    },
+    {
+      "description": "Automerge GitHub Actions pins and digest bumps",
+      "matchManagers": ["github-actions"],
+      "matchUpdateTypes": ["pin", "pinDigest", "digest"],
       "automerge": true
     },
     {
