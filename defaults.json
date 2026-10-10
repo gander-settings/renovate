@@ -9,6 +9,9 @@
   ],
   "dependencyDashboard": false,
   "minimumReleaseAge": "3 days",
+  "vulnerabilityAlerts": {
+    "minimumReleaseAge": null
+  },
   "assignees": ["gander"],
   "labels": ["dependencies"]
 }
