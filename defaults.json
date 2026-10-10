@@ -9,5 +9,8 @@
   ],
   "dependencyDashboard": false,
   "minimumReleaseAge": "3 days",
+  "vulnerabilityAlerts": {
+    "minimumReleaseAge": null
+  },
   "labels": ["dependencies"]
 }
