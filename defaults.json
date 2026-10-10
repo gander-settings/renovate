@@ -12,5 +12,6 @@
   "vulnerabilityAlerts": {
     "minimumReleaseAge": null
   },
+  "assignees": ["gander"],
   "labels": ["dependencies"]
 }
