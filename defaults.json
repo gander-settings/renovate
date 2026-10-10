@@ -9,5 +9,6 @@
   ],
   "dependencyDashboard": false,
   "minimumReleaseAge": "3 days",
+  "assignees": ["gander"],
   "labels": ["dependencies"]
 }
