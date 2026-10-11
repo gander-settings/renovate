@@ -17,5 +17,6 @@
     "minimumReleaseAge": null
   },
   "assignees": ["gander"],
+  "rebaseWhen": "auto",
   "labels": ["dependencies"]
 }
