@@ -9,6 +9,10 @@
   ],
   "dependencyDashboard": false,
   "minimumReleaseAge": "3 days",
+  "separateMajorMinor": true,
+  "separateMultipleMajor": true,
+  "separateMultipleMinor": true,
+  "separateMinorPatch": true,
   "vulnerabilityAlerts": {
     "minimumReleaseAge": null
   },
