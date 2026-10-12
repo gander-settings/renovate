@@ -102,7 +102,7 @@ Syntax: `before(<package>,<version>)`. Versions equal to or higher than the seco
 ## 🧪 Validating changes
 
 ```sh
-npx --yes --package renovate -- renovate-config-validator
+npx --yes --package renovate -- renovate-config-validator --strict --no-global *.json
 ```
 
 Run it in the preset repo before pushing, because a broken preset causes a config error in every repo that extends it.
