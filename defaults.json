@@ -1,5 +1,8 @@
 {
   "$schema": "https://docs.renovatebot.com/renovate-schema.json",
+  "description": [
+    "Base config: recommended defaults, pinned GitHub Actions digests, weekly lock file maintenance, semantic commits, monorepo grouping and a 3-day release age."
+  ],
   "extends": [
     "config:recommended",
     "helpers:pinGitHubActionDigests",
