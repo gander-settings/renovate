@@ -1,0 +1,12 @@
+{
+  "$schema": "https://docs.renovatebot.com/renovate-schema.json",
+  "extends": ["github>gander-settings/renovate:defaults"],
+  "description": ["Stay on {{arg0}} {{arg1}}.x"],
+  "packageRules": [
+    {
+      "description": "Stay on {{arg0}} {{arg1}}.x. Switch to the next version when upgrading.",
+      "matchDepNames": ["{{arg0}}"],
+      "allowedVersions": "/^{{arg1}}(\\.|$)/"
+    }
+  ]
+}

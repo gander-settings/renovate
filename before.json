@@ -1,0 +1,12 @@
+{
+  "$schema": "https://docs.renovatebot.com/renovate-schema.json",
+  "extends": ["github>gander-settings/renovate:defaults"],
+  "description": ["Keep {{arg0}} below {{arg1}}"],
+  "packageRules": [
+    {
+      "description": "Keep {{arg0}} below {{arg1}}. Raise the limit or remove the preset when ready to upgrade.",
+      "matchPackageNames": ["{{arg0}}"],
+      "allowedVersions": "<{{arg1}}"
+    }
+  ]
+}

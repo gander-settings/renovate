@@ -1,5 +1,6 @@
 {
-    "$schema": "https://docs.renovatebot.com/renovate-schema.json",
-    "extends": ["github>gander-settings/renovate:automerge"],
-    "forkProcessing": "enabled"
+  "$schema": "https://docs.renovatebot.com/renovate-schema.json",
+  "description": ["Run Renovate in forks too (forkProcessing enabled)."],
+  "extends": ["github>gander-settings/renovate:defaults"],
+  "forkProcessing": "enabled"
 }
