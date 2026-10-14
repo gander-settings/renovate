@@ -12,6 +12,7 @@
   ],
   "dependencyDashboard": false,
   "minimumReleaseAge": "3 days",
+  "minimumReleaseAgeBehaviour": "timestamp-optional",
   "separateMajorMinor": true,
   "separateMultipleMajor": true,
   "separateMultipleMinor": true,
