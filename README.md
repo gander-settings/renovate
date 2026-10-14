@@ -11,6 +11,8 @@ Shareable [Renovate](https://docs.renovatebot.com/config-presets/) presets. Pick
 | `forks` | Extends `defaults` and turns on `forkProcessing`, so Renovate also runs in forks |
 | `pin` | Extends `defaults` and keeps a tool on one version line, e.g. PHP 7.4.x or Node 12.x. Takes 2 parameters |
 | `before` | Extends `defaults` and keeps a package below a given version, e.g. TypeScript below 7. Takes 2 parameters |
+| `vue` | Extends `defaults` and keeps TypeScript below 7, because `vue-tsc` does not support it yet |
+| `docker` | Extends `defaults` and pins Docker image tags to digests (`docker:pinDigests`) |
 
 🧬 **Every preset extends `defaults`**, so you never need to add it yourself. Any single preset gives you the full base config, and combining several is safe.
 
@@ -82,6 +84,32 @@ Syntax: `before(<package>,<version>)`. Versions equal to or higher than the seco
 
 🔓 **Ready to upgrade?** Raise the limit (`before(typescript,8)`) or remove the line.
 
+## 💚 `vue`: Vue.js projects
+
+```json
+{
+  "extends": [
+    "github>gander-settings/renovate:automerge",
+    "github>gander-settings/renovate:vue"
+  ]
+}
+```
+
+Same as `before(typescript,7)`, with the reason built in. `vue-tsc` crashes on TypeScript 7 with `ERR_PACKAGE_PATH_NOT_EXPORTED './lib/tsc'`. Since the `vue-tsc` peer range is `>=5`, npm alone does not stop version 7, so also set `"typescript": "~6.x"` in `package.json`. Lift both together when `vue-tsc` supports TypeScript 7.
+
+## 🐳 `docker`: pin images to digests
+
+```json
+{
+  "extends": [
+    "github>gander-settings/renovate:automerge",
+    "github>gander-settings/renovate:docker"
+  ]
+}
+```
+
+Digest and pin updates for Docker images are **not** automerged (a moved tag can change the image content), unlike GitHub Actions.
+
 ## 🧩 Combining presets
 
 ```json
@@ -115,4 +143,6 @@ automerge.json   🚀 defaults + automerge rules
 forks.json       🍴 defaults + fork processing
 pin.json         📌 defaults + pin(<dependency>,<version>)
 before.json      ⏳ defaults + before(<package>,<version>)
+vue.json         💚 defaults + before(typescript,7)
+docker.json      🐳 defaults + docker:pinDigests
 ```

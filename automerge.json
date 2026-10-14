@@ -7,7 +7,6 @@
   "platformAutomerge": true,
   "automergeStrategy": "merge-commit",
   "rebaseWhen": "auto",
-  "minimumReleaseAgeBehaviour": "timestamp-optional",
   "packageRules": [
     {
       "description": "Automerge patch updates (all dependencies)",
