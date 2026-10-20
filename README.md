@@ -9,12 +9,12 @@ Shareable [Renovate](https://docs.renovatebot.com/config-presets/) presets. Pick
 | `defaults` | Base config: `config:recommended`, pinned GitHub Actions digests, weekly lock file maintenance, semantic commits, monorepo grouping, 3-day release age, separate major/minor/patch PRs, no dependency dashboard |
 | `automerge` | Extends `defaults` and automerges patch updates, GitHub Actions pins and digests, and lock file maintenance. Major and minor updates are never automerged |
 | `forks` | Extends `defaults` and turns on `forkProcessing`, so Renovate also runs in forks |
-| `pin` | Extends `defaults` and keeps a tool on one version line, e.g. PHP 7.4.x or Node 12.x. Takes 2 parameters |
-| `before` | Extends `defaults` and keeps a package below a given version, e.g. TypeScript below 7. Takes 2 parameters |
+| `pin` | Keeps a tool on one version line, e.g. PHP 7.4.x or Node 12.x. Takes 2 parameters |
+| `before` | Keeps a package below a given version, e.g. TypeScript below 7. Takes 2 parameters |
 | `vue` | Extends `defaults` and keeps TypeScript below 7, because `vue-tsc` does not support it yet |
 | `docker` | Extends `defaults` and pins Docker image tags to digests (`docker:pinDigests`) |
 
-🧬 **Every preset extends `defaults`**, so you never need to add it yourself. Any single preset gives you the full base config, and combining several is safe.
+🧬 **`automerge`, `forks`, `vue` and `docker` extend `defaults`**, so any one of them gives you the full base config. `pin` and `before` are parameterised and are often listed many times, so they do **not** extend `defaults` (each copy would pull in a full copy of `config:recommended`). Always combine them with `automerge` or `defaults`.
 
 ## 🚀 Quick start
 
@@ -141,8 +141,8 @@ Run it in the preset repo before pushing, because a broken preset causes a confi
 defaults.json    🧱 base config
 automerge.json   🚀 defaults + automerge rules
 forks.json       🍴 defaults + fork processing
-pin.json         📌 defaults + pin(<dependency>,<version>)
-before.json      ⏳ defaults + before(<package>,<version>)
+pin.json         📌 pin(<dependency>,<version>)
+before.json      ⏳ before(<package>,<version>)
 vue.json         💚 defaults + before(typescript,7)
 docker.json      🐳 defaults + docker:pinDigests
 ```

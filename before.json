@@ -1,6 +1,5 @@
 {
   "$schema": "https://docs.renovatebot.com/renovate-schema.json",
-  "extends": ["github>gander-settings/renovate:defaults"],
   "description": ["Keep {{arg0}} below {{arg1}}"],
   "packageRules": [
     {
