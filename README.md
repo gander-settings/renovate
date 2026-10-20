@@ -13,8 +13,9 @@ Shareable [Renovate](https://docs.renovatebot.com/config-presets/) presets. Pick
 | `before` | Keeps a package below a given version, e.g. TypeScript below 7. Takes 2 parameters |
 | `vue` | Extends `defaults` and keeps TypeScript below 7, because `vue-tsc` does not support it yet |
 | `docker` | Extends `defaults` and pins Docker image tags to digests (`docker:pinDigests`) |
+| `legacy` | Extends `defaults` and opens one PR per package with its newest minor, instead of one PR per minor line. Multiple majors still get separate PRs |
 
-🧬 **`automerge`, `forks`, `vue` and `docker` extend `defaults`**, so any one of them gives you the full base config. `pin` and `before` are parameterised and are often listed many times, so they do **not** extend `defaults` (each copy would pull in a full copy of `config:recommended`). Always combine them with `automerge` or `defaults`.
+🧬 **`automerge`, `forks`, `vue`, `docker` and `legacy` extend `defaults`**, so any one of them gives you the full base config. `pin` and `before` are parameterised and are often listed many times, so they do **not** extend `defaults` (each copy would pull in a full copy of `config:recommended`). Always combine them with `automerge` or `defaults`.
 
 ## 🚀 Quick start
 
@@ -110,6 +111,19 @@ Same as `before(typescript,7)`, with the reason built in. `vue-tsc` crashes on T
 
 Digest and pin updates for Docker images are **not** automerged (a moved tag can change the image content), unlike GitHub Actions.
 
+## 🏚️ `legacy`: projects far behind on updates
+
+```json
+{
+  "extends": [
+    "github>gander-settings/renovate:automerge",
+    "github>gander-settings/renovate:legacy"
+  ]
+}
+```
+
+A project many minor versions behind would otherwise get one PR per minor line (e.g. `doctrine/orm` 2.8.x, 2.9.x, … 2.20.x). `legacy` turns off `separateMultipleMinor`, so each package gets one PR with its newest minor. Majors stay separate (`separateMultipleMajor`).
+
 ## 🧩 Combining presets
 
 ```json
@@ -145,4 +159,5 @@ pin.json         📌 pin(<dependency>,<version>)
 before.json      ⏳ before(<package>,<version>)
 vue.json         💚 defaults + before(typescript,7)
 docker.json      🐳 defaults + docker:pinDigests
+legacy.json      🏚️ defaults + one PR per package for minors
 ```
