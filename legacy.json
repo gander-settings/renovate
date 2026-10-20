@@ -1,0 +1,8 @@
+{
+  "$schema": "https://docs.renovatebot.com/renovate-schema.json",
+  "description": [
+    "Legacy projects: one PR per package with its newest minor, instead of one PR per minor line. Multiple majors still get separate PRs."
+  ],
+  "extends": ["github>gander-settings/renovate:defaults"],
+  "separateMultipleMinor": false
+}
