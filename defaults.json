@@ -46,6 +46,25 @@
       "matchDatasources": ["docker"],
       "matchPackageNames": ["ghcr.io/zizmorcore/zizmor"],
       "minimumReleaseAge": null
+    },
+    {
+      "description": "Trial set: every available PR table column, for every update. Overrides the narrower set from config:recommended (mergeConfidence:age-confidence-badges). Delete the lines you do not need.",
+      "matchPackageNames": ["*"],
+      "prBodyColumns": [
+        "Package",
+        "Type",
+        "Update",
+        "Change",
+        "Current value",
+        "New value",
+        "Pending",
+        "Package file",
+        "References",
+        "Age",
+        "Adoption",
+        "Passing",
+        "Confidence"
+      ]
     }
   ],
   "vulnerabilityAlerts": {

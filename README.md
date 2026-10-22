@@ -124,6 +124,28 @@ Digest and pin updates for Docker images are **not** automerged (a moved tag can
 
 A project many minor versions behind would otherwise get one PR per minor line (e.g. `doctrine/orm` 2.8.x, 2.9.x, … 2.20.x). `legacy` turns off `separateMultipleMinor`, so each package gets one PR with its newest minor. Majors stay separate (`separateMultipleMajor`).
 
+## 🧪 PR table columns (trial)
+
+`defaults` currently shows **every** column Renovate offers in the PR body table (`prBodyColumns`), for every update. This is a trial set: keep the useful columns and delete the rest from the last `packageRules` entry in `defaults.json`.
+
+| Column | Shows |
+| --- | --- |
+| `Package` | Package name, linked to its source |
+| `Type` | Dependency type, e.g. `dependencies`, `devDependencies` |
+| `Update` | Update type: `major`, `minor`, `patch`, `digest`, … |
+| `Change` | Old → new version |
+| `Current value` | Current value as written in the file (version or range) |
+| `New value` | New value as written in the file |
+| `Pending` | Newer versions held back, e.g. by `minimumReleaseAge` |
+| `Package file` | File the dependency comes from |
+| `References` | Links to the source, homepage and changelog |
+| `Age` | Merge Confidence badge: how long the new version has been out |
+| `Adoption` | Merge Confidence badge: share of Renovate users on the new version |
+| `Passing` | Merge Confidence badge: share of updates with passing tests |
+| `Confidence` | Merge Confidence badge: overall confidence for this update |
+
+The Merge Confidence badges only work for the `go`, `maven`, `npm`, `nuget`, `packagist`, `pypi` and `rubygems` datasources. For others (e.g. GitHub Actions, Docker) those cells stay empty or show an unknown badge.
+
 ## 🧩 Combining presets
 
 ```json
