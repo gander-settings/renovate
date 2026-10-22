@@ -48,17 +48,14 @@
       "minimumReleaseAge": null
     },
     {
-      "description": "Trial set: every available PR table column, for every update. Overrides the narrower set from config:recommended (mergeConfidence:age-confidence-badges). Delete the lines you do not need.",
+      "description": "Trial set of PR table columns, for every update (Current value, New value and Package file already removed). Overrides the narrower set from config:recommended (mergeConfidence:age-confidence-badges). Delete the lines you do not need.",
       "matchPackageNames": ["*"],
       "prBodyColumns": [
         "Package",
         "Type",
         "Update",
         "Change",
-        "Current value",
-        "New value",
         "Pending",
-        "Package file",
         "References",
         "Age",
         "Adoption",

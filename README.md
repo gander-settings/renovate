@@ -126,7 +126,7 @@ A project many minor versions behind would otherwise get one PR per minor line (
 
 ## 🧪 PR table columns (trial)
 
-`defaults` currently shows **every** column Renovate offers in the PR body table (`prBodyColumns`), for every update. This is a trial set: keep the useful columns and delete the rest from the last `packageRules` entry in `defaults.json`.
+`defaults` sets the columns of the PR body table (`prBodyColumns`) for every update. This is a trial set, trimmed down from every column Renovate offers: keep the useful columns and delete the rest from the last `packageRules` entry in `defaults.json`.
 
 | Column | Shows |
 | --- | --- |
@@ -134,15 +134,14 @@ A project many minor versions behind would otherwise get one PR per minor line (
 | `Type` | Dependency type, e.g. `dependencies`, `devDependencies` |
 | `Update` | Update type: `major`, `minor`, `patch`, `digest`, … |
 | `Change` | Old → new version |
-| `Current value` | Current value as written in the file (version or range) |
-| `New value` | New value as written in the file |
 | `Pending` | Newer versions held back, e.g. by `minimumReleaseAge` |
-| `Package file` | File the dependency comes from |
 | `References` | Links to the source, homepage and changelog |
 | `Age` | Merge Confidence badge: how long the new version has been out |
 | `Adoption` | Merge Confidence badge: share of Renovate users on the new version |
 | `Passing` | Merge Confidence badge: share of updates with passing tests |
 | `Confidence` | Merge Confidence badge: overall confidence for this update |
+
+Already removed: `Current value`, `New value` and `Package file`. Add them back to `prBodyColumns` if needed.
 
 The Merge Confidence badges only work for the `go`, `maven`, `npm`, `nuget`, `packagist`, `pypi` and `rubygems` datasources. For others (e.g. GitHub Actions, Docker) those cells stay empty or show an unknown badge.
 
