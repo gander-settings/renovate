@@ -6,7 +6,7 @@ Shareable [Renovate](https://docs.renovatebot.com/config-presets/) presets. Pick
 
 | Preset | What it does |
 | --- | --- |
-| `defaults` | Base config: `config:recommended`, pinned GitHub Actions digests, weekly lock file maintenance, semantic commits, monorepo grouping, 3/7/30-day release age for patch/minor/major, separate major/minor/patch PRs, no dependency dashboard |
+| `defaults` | Base config: `config:recommended`, pinned GitHub Actions digests, weekly lock file maintenance, semantic commits, monorepo grouping, 24-hour minimum release age for every update, separate major/minor/patch PRs, no dependency dashboard |
 | `automerge` | Extends `defaults` and automerges patch updates, GitHub Actions pins and digests, and lock file maintenance, plus vulnerability fixes. Updates without a release timestamp are not automerged. Major and minor updates are never automerged |
 | `forks` | Extends `defaults` and turns on `forkProcessing`, so Renovate also runs in forks |
 | `pin` | Keeps a tool on one version line, e.g. PHP 7.4.x or Node 12.x. Takes 2 parameters |
