@@ -73,6 +73,7 @@ Syntax: `pin(<dependency>,<version>)`
 
 ```json
 {
+  "$schema": "https://docs.renovatebot.com/renovate-schema.json",
   "extends": [
     "github>gander-settings/renovate:automerge",
     "github>gander-settings/renovate:pin(php,7.4)",
@@ -96,6 +97,7 @@ Syntax: `before(<package>,<version>)`. Versions equal to or higher than the seco
 
 ```json
 {
+  "$schema": "https://docs.renovatebot.com/renovate-schema.json",
   "extends": [
     "github>gander-settings/renovate:automerge",
     "github>gander-settings/renovate:before(typescript,7)"
@@ -114,6 +116,7 @@ Syntax: `before(<package>,<version>)`. Versions equal to or higher than the seco
 
 ```json
 {
+  "$schema": "https://docs.renovatebot.com/renovate-schema.json",
   "extends": [
     "github>gander-settings/renovate:automerge",
     "github>gander-settings/renovate:vue"
@@ -127,6 +130,7 @@ Same as `before(typescript,7)`, with the reason built in. `vue-tsc` crashes on T
 
 ```json
 {
+  "$schema": "https://docs.renovatebot.com/renovate-schema.json",
   "extends": [
     "github>gander-settings/renovate:automerge",
     "github>gander-settings/renovate:docker"
@@ -140,6 +144,7 @@ Digest and pin updates for Docker images are **not** automerged (a moved tag can
 
 ```json
 {
+  "$schema": "https://docs.renovatebot.com/renovate-schema.json",
   "extends": [
     "github>gander-settings/renovate:automerge",
     "github>gander-settings/renovate:legacy"
@@ -155,6 +160,7 @@ Swap the main preset, keep the rest of `extends` as it is:
 
 ```json
 {
+  "$schema": "https://docs.renovatebot.com/renovate-schema.json",
   "extends": [
     "github>gander-settings/renovate:approval",
     "github>gander-settings/renovate:pin(php,7.4)"
@@ -192,6 +198,7 @@ The Merge Confidence badges only work for the `go`, `maven`, `npm`, `nuget`, `pa
 
 ```json
 {
+  "$schema": "https://docs.renovatebot.com/renovate-schema.json",
   "extends": [
     "github>gander-settings/renovate:automerge",
     "github>gander-settings/renovate:pin(php,7.4)",
