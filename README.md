@@ -41,7 +41,19 @@ Add a `renovate.json` to your repo.
 }
 ```
 
-To switch, change only the preset name. Only need the base config? Use `github>gander-settings/renovate:defaults`. Want updates held until you approve them? Use `github>gander-settings/renovate:approval`.
+🏚️ **Legacy** (project far behind on updates: one PR per package with its newest minor, instead of one per minor line):
+
+```json
+{
+  "$schema": "https://docs.renovatebot.com/renovate-schema.json",
+  "extends": [
+    "github>gander-settings/renovate:automerge",
+    "github>gander-settings/renovate:legacy"
+  ]
+}
+```
+
+To switch between automerge and disabled, change only the preset name. Only need the base config? Use `github>gander-settings/renovate:defaults`. Want updates held until you approve them? Use `github>gander-settings/renovate:approval`.
 
 ## 🍴 Working in a fork?
 
