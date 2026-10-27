@@ -14,8 +14,10 @@ Shareable [Renovate](https://docs.renovatebot.com/config-presets/) presets. Pick
 | `vue` | Extends `defaults` and keeps TypeScript below 7, because `vue-tsc` does not support it yet |
 | `docker` | Extends `defaults` and pins Docker image tags to digests (`docker:pinDigests`) |
 | `legacy` | Extends `defaults` and opens one PR per package with its newest minor, instead of one PR per minor line. Multiple majors still get separate PRs |
+| `approval` | Extends `defaults` and holds every update in the Dependency Dashboard until you approve it there (`dependencyDashboardApproval`). No branches or PRs until then. Vulnerability fixes are not held |
+| `disabled` | Extends `defaults` and turns Renovate off for the repo (`enabled: false`), keeping the config in place |
 
-🧬 **`automerge`, `forks`, `vue`, `docker` and `legacy` extend `defaults`**, so any one of them gives you the full base config. `pin` and `before` are parameterised and are often listed many times, so they do **not** extend `defaults` (each copy would pull in a full copy of `config:recommended`). Always combine them with `automerge` or `defaults`.
+🧬 **`automerge`, `forks`, `vue`, `docker`, `legacy`, `approval` and `disabled` extend `defaults`**, so any one of them gives you the full base config. `pin` and `before` are parameterised and are often listed many times, so they do **not** extend `defaults` (each copy would pull in a full copy of `config:recommended`). Always combine them with `automerge` or `defaults`.
 
 ## 🚀 Quick start
 
@@ -124,6 +126,24 @@ Digest and pin updates for Docker images are **not** automerged (a moved tag can
 
 A project many minor versions behind would otherwise get one PR per minor line (e.g. `doctrine/orm` 2.8.x, 2.9.x, … 2.20.x). `legacy` turns off `separateMultipleMinor`, so each package gets one PR with its newest minor. Majors stay separate (`separateMultipleMajor`).
 
+## ⏸️ `approval` and `disabled`: pause a repo
+
+Swap the main preset, keep the rest of `extends` as it is:
+
+```json
+{
+  "extends": [
+    "github>gander-settings/renovate:approval",
+    "github>gander-settings/renovate:pin(php,7.4)"
+  ]
+}
+```
+
+- `approval`: Renovate keeps scanning and lists every pending update in the Dependency Dashboard issue (created automatically, even though `defaults` turns the dashboard off). Tick an update there to get its PR. Security fixes still open PRs straight away, because Renovate's `vulnerabilityAlerts` defaults set `dependencyDashboardApproval: false`.
+- `disabled`: Renovate stops working on the repo. On the first run after the switch it closes its open PRs and issues and deletes its branches. Switch back to `automerge` or `defaults` to turn it on again.
+
+⚠️ `defaults` sets `enabled: true`, and later presets win. Use `approval` or `disabled` **instead of** `automerge`/`defaults`, not next to them: `["…:disabled", "…:automerge"]` turns Renovate back on.
+
 ## 🧪 PR table columns (trial)
 
 `defaults` sets the columns of the PR body table (`prBodyColumns`) for every update. This is a trial set, trimmed down from every column Renovate offers: keep the useful columns and delete the rest from the last `packageRules` entry in `defaults.json`.
@@ -181,4 +201,6 @@ before.json      ⏳ before(<package>,<version>)
 vue.json         💚 defaults + before(typescript,7)
 docker.json      🐳 defaults + docker:pinDigests
 legacy.json      🏚️ defaults + one PR per package for minors
+approval.json    ⏸️ defaults + updates only after dashboard approval
+disabled.json    🛑 defaults + Renovate turned off
 ```
