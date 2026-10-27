@@ -10,6 +10,7 @@
     ":semanticCommits",
     "group:monorepos"
   ],
+  "enabled": true,
   "dependencyDashboard": false,
   "minimumReleaseAge": "3 days",
   "minimumReleaseAgeBehaviour": "timestamp-optional",
