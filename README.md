@@ -21,7 +21,9 @@ Shareable [Renovate](https://docs.renovatebot.com/config-presets/) presets. Pick
 
 ## 🚀 Quick start
 
-Add a `renovate.json` to your repo:
+Add a `renovate.json` to your repo.
+
+🚀 **Automerge** (the usual choice):
 
 ```json
 {
@@ -30,7 +32,16 @@ Add a `renovate.json` to your repo:
 }
 ```
 
-Only need the base config? Use `github>gander-settings/renovate:defaults`.
+🛑 **Disabled** (Renovate off, config kept):
+
+```json
+{
+  "$schema": "https://docs.renovatebot.com/renovate-schema.json",
+  "extends": ["github>gander-settings/renovate:disabled"]
+}
+```
+
+To switch, change only the preset name. Only need the base config? Use `github>gander-settings/renovate:defaults`. Want updates held until you approve them? Use `github>gander-settings/renovate:approval`.
 
 ## 🍴 Working in a fork?
 
