@@ -1,10 +1,7 @@
 {
   "$schema": "https://docs.renovatebot.com/renovate-schema.json",
   "description": [
-    "Vue.js projects: keep TypeScript below 7, because vue-tsc does not support it yet (fails with ERR_PACKAGE_PATH_NOT_EXPORTED './lib/tsc')."
+    "Modifier, list after github>gander-settings/renovate. Vue.js projects: keep TypeScript below 7, because vue-tsc does not support it yet (fails with ERR_PACKAGE_PATH_NOT_EXPORTED './lib/tsc')."
   ],
-  "extends": [
-    "github>gander-settings/renovate:defaults",
-    "github>gander-settings/renovate:before(typescript,7)"
-  ]
+  "extends": ["github>gander-settings/renovate:before(typescript,7)"]
 }

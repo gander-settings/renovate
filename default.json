@@ -1,7 +1,10 @@
 {
   "$schema": "https://docs.renovatebot.com/renovate-schema.json",
   "description": [
-    "Default preset, loaded by github>gander-settings/renovate with no preset name: the base config plus the automerge rules. Add other presets after it as modifiers."
+    "Default preset, loaded by github>gander-settings/renovate with no preset name: the base config plus the automerge rules. List it first and add other presets after it as modifiers."
   ],
-  "extends": ["github>gander-settings/renovate:automerge"]
+  "extends": [
+    "github>gander-settings/renovate:base",
+    "github>gander-settings/renovate:automerge"
+  ]
 }

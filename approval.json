@@ -1,8 +1,7 @@
 {
   "$schema": "https://docs.renovatebot.com/renovate-schema.json",
   "description": [
-    "Hold all updates for approval: Renovate still detects updates and lists them in the Dependency Dashboard, but creates no branches or PRs until you tick them there. Vulnerability fixes are not held."
+    "Modifier, list after github>gander-settings/renovate. Hold all updates for approval: Renovate still detects updates and lists them in the Dependency Dashboard, but creates no branches or PRs until you tick them there. Vulnerability fixes are not held."
   ],
-  "extends": ["github>gander-settings/renovate:defaults"],
   "dependencyDashboardApproval": true
 }

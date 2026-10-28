@@ -1,76 +1,7 @@
 {
   "$schema": "https://docs.renovatebot.com/renovate-schema.json",
   "description": [
-    "Base config: recommended defaults, pinned GitHub Actions digests, no lock file maintenance, semantic commits, monorepo grouping and a 3/7/30-day release age for patch/minor/major."
+    "Deprecated alias of base, kept so existing configs that extend defaults keep working. Use github>gander-settings/renovate (base + automerge) or :base instead."
   ],
-  "extends": [
-    "config:recommended",
-    "helpers:pinGitHubActionDigests",
-    ":semanticCommits",
-    "group:monorepos"
-  ],
-  "enabled": true,
-  "lockFileMaintenance": {
-    "enabled": false
-  },
-  "dependencyDashboard": false,
-  "minimumReleaseAge": "3 days",
-  "minimumReleaseAgeBehaviour": "timestamp-optional",
-  "internalChecksFilter": "strict",
-  "separateMajorMinor": true,
-  "separateMultipleMajor": true,
-  "separateMultipleMinor": true,
-  "separateMinorPatch": true,
-  "packageRules": [
-    {
-      "matchUpdateTypes": ["patch"],
-      "minimumReleaseAge": "3 days"
-    },
-    {
-      "matchUpdateTypes": ["minor"],
-      "minimumReleaseAge": "7 days"
-    },
-    {
-      "matchUpdateTypes": ["major"],
-      "minimumReleaseAge": "30 days"
-    },
-    {
-      "description": "No release timestamps available: pinning is safer than leaving unpinned",
-      "matchUpdateTypes": ["pinDigest"],
-      "minimumReleaseAge": null
-    },
-    {
-      "description": "No release timestamps available: registries and datasources that do not expose them",
-      "matchDatasources": ["github-runners"],
-      "minimumReleaseAge": null
-    },
-    {
-      "description": "No release timestamps on GHCR: allow the zizmor image through",
-      "matchDatasources": ["docker"],
-      "matchPackageNames": ["ghcr.io/zizmorcore/zizmor"],
-      "minimumReleaseAge": null
-    },
-    {
-      "description": "Trial set of PR table columns, for every update (Current value, New value and Package file already removed). Overrides the narrower set from config:recommended (mergeConfidence:age-confidence-badges). Delete the lines you do not need.",
-      "matchPackageNames": ["*"],
-      "prBodyColumns": [
-        "Package",
-        "Type",
-        "Update",
-        "Change",
-        "Pending",
-        "References",
-        "Age",
-        "Adoption",
-        "Passing",
-        "Confidence"
-      ]
-    }
-  ],
-  "vulnerabilityAlerts": {
-    "minimumReleaseAge": null
-  },
-  "assignees": ["gander"],
-  "rebaseWhen": "auto",
-  "labels": ["dependencies"]
+  "extends": ["github>gander-settings/renovate:base"]
 }

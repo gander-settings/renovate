@@ -1,9 +1,8 @@
 {
   "$schema": "https://docs.renovatebot.com/renovate-schema.json",
   "description": [
-    "Automerge patch updates, GitHub Actions pins and digests and vulnerability fixes. Updates without a release timestamp wait instead of being automerged. Major and minor updates are never automerged."
+    "Modifier, list after github>gander-settings/renovate. Automerge patch updates, GitHub Actions pins and digests and vulnerability fixes. Updates without a release timestamp wait instead of being automerged. Major and minor updates are never automerged."
   ],
-  "extends": ["github>gander-settings/renovate:defaults"],
   "platformAutomerge": true,
   "automergeStrategy": "merge-commit",
   "rebaseWhen": "auto",

@@ -1,8 +1,7 @@
 {
   "$schema": "https://docs.renovatebot.com/renovate-schema.json",
   "description": [
-    "Turn Renovate off for the repo but keep the config: extends defaults with enabled set to false. On its next run Renovate closes its open PRs and issues and deletes its branches."
+    "Modifier, list after github>gander-settings/renovate. Turn Renovate off for the repo but keep the config: enabled set to false. On its next run Renovate closes its open PRs and issues and deletes its branches."
   ],
-  "extends": ["github>gander-settings/renovate:defaults"],
   "enabled": false
 }
