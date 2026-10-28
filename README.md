@@ -7,8 +7,8 @@ Shareable [Renovate](https://docs.renovatebot.com/config-presets/) presets. Pick
 | Preset | What it does |
 | --- | --- |
 | *(no name)* | `github>gander-settings/renovate` loads `default.json`: `defaults` plus the `automerge` rules. Start every `extends` with it |
-| `defaults` | Base config: `config:recommended`, pinned GitHub Actions digests, weekly lock file maintenance, semantic commits, monorepo grouping, 3/7/30-day release age for patch/minor/major, separate major/minor/patch PRs, no dependency dashboard |
-| `automerge` | Extends `defaults` and automerges patch updates, GitHub Actions pins and digests, and lock file maintenance, plus vulnerability fixes. Updates without a release timestamp are not automerged. Major and minor updates are never automerged |
+| `defaults` | Base config: `config:recommended`, pinned GitHub Actions digests, lock file maintenance off (a full lock refresh bypasses release age and the minor/major automerge block), semantic commits, monorepo grouping, 3/7/30-day release age for patch/minor/major, separate major/minor/patch PRs, no dependency dashboard |
+| `automerge` | Extends `defaults` and automerges patch updates, GitHub Actions pins and digests, plus vulnerability fixes. Updates without a release timestamp are not automerged. Major and minor updates are never automerged |
 | `forks` | Extends `defaults` and turns on `forkProcessing`, so Renovate also runs in forks |
 | `pin` | Keeps a tool on one version line, e.g. PHP 7.4.x or Node 12.x. Takes 2 parameters |
 | `before` | Keeps a package below a given version, e.g. TypeScript below 7. Takes 2 parameters |
