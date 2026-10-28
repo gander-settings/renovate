@@ -1,10 +1,7 @@
 {
   "$schema": "https://docs.renovatebot.com/renovate-schema.json",
   "description": [
-    "Docker projects: pin image tags in Dockerfiles, Compose files and workflows to digests."
+    "Modifier, list after github>gander-settings/renovate. Docker projects: pin image tags in Dockerfiles, Compose files and workflows to digests."
   ],
-  "extends": [
-    "github>gander-settings/renovate:defaults",
-    "docker:pinDigests"
-  ]
+  "extends": ["docker:pinDigests"]
 }

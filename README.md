@@ -6,19 +6,20 @@ Shareable [Renovate](https://docs.renovatebot.com/config-presets/) presets. Pick
 
 | Preset | What it does |
 | --- | --- |
-| *(no name)* | `github>gander-settings/renovate` loads `default.json`: `defaults` plus the `automerge` rules. Start every `extends` with it |
-| `defaults` | Base config: `config:recommended`, pinned GitHub Actions digests, lock file maintenance off (a full lock refresh bypasses release age and the minor/major automerge block), semantic commits, monorepo grouping, 3/7/30-day release age for patch/minor/major, separate major/minor/patch PRs, no dependency dashboard |
-| `automerge` | Extends `defaults` and automerges patch updates, GitHub Actions pins and digests, plus vulnerability fixes. Updates without a release timestamp are not automerged. Major and minor updates are never automerged |
-| `forks` | Extends `defaults` and turns on `forkProcessing`, so Renovate also runs in forks |
+| *(no name)* | `github>gander-settings/renovate` loads `default.json`: `base` plus `automerge`. Start every `extends` with it |
+| `base` | Base config without automerge: `config:recommended`, pinned GitHub Actions digests, lock file maintenance off (a full lock refresh bypasses release age and the minor/major automerge block), semantic commits, monorepo grouping, 3/7/30-day release age for patch/minor/major, separate major/minor/patch PRs, no dependency dashboard |
+| `automerge` | Automerges patch updates, GitHub Actions pins and digests, plus vulnerability fixes. Updates without a release timestamp are not automerged. Major and minor updates are never automerged |
+| `forks` | Turns on `forkProcessing`, so Renovate also runs in forks |
 | `pin` | Keeps a tool on one version line, e.g. PHP 7.4.x or Node 12.x. Takes 2 parameters |
 | `before` | Keeps a package below a given version, e.g. TypeScript below 7. Takes 2 parameters |
-| `vue` | Extends `defaults` and keeps TypeScript below 7, because `vue-tsc` does not support it yet |
-| `docker` | Extends `defaults` and pins Docker image tags to digests (`docker:pinDigests`) |
-| `legacy` | Extends `defaults` and opens one PR per package with its newest minor, instead of one PR per minor line. Multiple majors still get separate PRs |
-| `approval` | Extends `defaults` and holds every update in the Dependency Dashboard until you approve it there (`dependencyDashboardApproval`). No branches or PRs until then. Vulnerability fixes are not held |
-| `disabled` | Extends `defaults` and turns Renovate off for the repo (`enabled: false`), keeping the config in place |
+| `vue` | Keeps TypeScript below 7, because `vue-tsc` does not support it yet |
+| `docker` | Pins Docker image tags to digests (`docker:pinDigests`) |
+| `legacy` | Opens one PR per package with its newest minor, instead of one PR per minor line. Multiple majors still get separate PRs |
+| `approval` | Holds every update in the Dependency Dashboard until you approve it there (`dependencyDashboardApproval`). No branches or PRs until then. Vulnerability fixes are not held |
+| `disabled` | Turns Renovate off for the repo (`enabled: false`), keeping the config in place |
+| `defaults` | Deprecated alias of `base`, kept so older configs keep working |
 
-🧬 **`automerge`, `forks`, `vue`, `docker`, `legacy`, `approval` and `disabled` extend `defaults`**, so any one of them gives you the full base config. `pin` and `before` are parameterised and are often listed many times, so they do **not** extend `defaults` (each copy would pull in a full copy of `config:recommended`). Always list them after `github>gander-settings/renovate`.
+🧬 **Only `github>gander-settings/renovate` (and `base`) carry the base config.** Every other preset is a modifier: it changes a few options and does not extend the base, so the base is loaded once however many presets you list. Always start `extends` with `github>gander-settings/renovate` and list modifiers after it; a modifier on its own gives you almost nothing.
 
 ## 🚀 Quick start
 
@@ -57,7 +58,7 @@ Add a `renovate.json` to your repo.
 }
 ```
 
-Only need the base config, without automerge? Use `github>gander-settings/renovate:defaults`. Want updates held until you approve them? Use `github>gander-settings/renovate:approval`.
+Only need the base config, without automerge? Use `github>gander-settings/renovate:base` instead of `github>gander-settings/renovate`. Want updates held until you approve them? Use `github>gander-settings/renovate:approval`.
 
 ## 🍴 Working in a fork?
 
@@ -173,14 +174,14 @@ Add the preset right after the default one, keep the rest of `extends` as it is:
 }
 ```
 
-- `approval`: Renovate keeps scanning and lists every pending update in the Dependency Dashboard issue (created automatically, even though `defaults` turns the dashboard off). Tick an update there to get its PR. Security fixes still open PRs straight away, because Renovate's `vulnerabilityAlerts` defaults set `dependencyDashboardApproval: false`.
+- `approval`: Renovate keeps scanning and lists every pending update in the Dependency Dashboard issue (created automatically, even though `base` turns the dashboard off). Tick an update there to get its PR. Security fixes still open PRs straight away, because Renovate's `vulnerabilityAlerts` defaults set `dependencyDashboardApproval: false`.
 - `disabled`: Renovate stops working on the repo. On the first run after the switch it closes its open PRs and issues and deletes its branches. Remove `disabled` from `extends` to turn it on again.
 
-⚠️ The default preset sets `enabled: true`, and later presets win. Keep `github>gander-settings/renovate` **first**: `["…:disabled", "github>gander-settings/renovate"]` turns Renovate back on.
+⚠️ The base config sets `enabled: true`, and later presets win. Keep `github>gander-settings/renovate` **first**: `["…:disabled", "github>gander-settings/renovate"]` turns Renovate back on.
 
 ## 🧪 PR table columns (trial)
 
-`defaults` sets the columns of the PR body table (`prBodyColumns`) for every update. This is a trial set, trimmed down from every column Renovate offers: keep the useful columns and delete the rest from the last `packageRules` entry in `defaults.json`.
+`base` sets the columns of the PR body table (`prBodyColumns`) for every update. This is a trial set, trimmed down from every column Renovate offers: keep the useful columns and delete the rest from the last `packageRules` entry in `base.json`.
 
 | Column | Shows |
 | --- | --- |
@@ -228,15 +229,16 @@ Run it in the preset repo before pushing, because a broken preset causes a confi
 ## 🗂️ Repository layout
 
 ```
-default.json     ⭐ github>gander-settings/renovate: defaults + automerge
-defaults.json    🧱 base config
-automerge.json   🚀 defaults + automerge rules
-forks.json       🍴 defaults + fork processing
-pin.json         📌 pin(<dependency>,<version>)
-before.json      ⏳ before(<package>,<version>)
-vue.json         💚 defaults + before(typescript,7)
-docker.json      🐳 defaults + docker:pinDigests
-legacy.json      🏚️ defaults + one PR per package for minors
-approval.json    ⏸️ defaults + updates only after dashboard approval
-disabled.json    🛑 defaults + Renovate turned off
+default.json     ⭐ github>gander-settings/renovate: base + automerge
+base.json        🧱 base config without automerge
+defaults.json    🧓 deprecated alias of base
+automerge.json   🚀 modifier: automerge rules
+forks.json       🍴 modifier: fork processing
+pin.json         📌 modifier: pin(<dependency>,<version>)
+before.json      ⏳ modifier: before(<package>,<version>)
+vue.json         💚 modifier: before(typescript,7)
+docker.json      🐳 modifier: docker:pinDigests
+legacy.json      🏚️ modifier: one PR per package for minors
+approval.json    ⏸️ modifier: updates only after dashboard approval
+disabled.json    🛑 modifier: Renovate turned off
 ```
