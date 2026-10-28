@@ -6,6 +6,7 @@ Shareable [Renovate](https://docs.renovatebot.com/config-presets/) presets. Pick
 
 | Preset | What it does |
 | --- | --- |
+| *(no name)* | `github>gander-settings/renovate` loads `default.json`: `defaults` plus the `automerge` rules. Start every `extends` with it |
 | `defaults` | Base config: `config:recommended`, pinned GitHub Actions digests, lock file maintenance off (a full lock refresh bypasses release age and the minor/major automerge block), semantic commits, monorepo grouping, 3/7/30-day release age for patch/minor/major, separate major/minor/patch PRs, no dependency dashboard |
 | `automerge` | Extends `defaults` and automerges patch updates, GitHub Actions pins and digests, plus vulnerability fixes. Updates without a release timestamp are not automerged. Major and minor updates are never automerged |
 | `forks` | Extends `defaults` and turns on `forkProcessing`, so Renovate also runs in forks |
@@ -17,27 +18,30 @@ Shareable [Renovate](https://docs.renovatebot.com/config-presets/) presets. Pick
 | `approval` | Extends `defaults` and holds every update in the Dependency Dashboard until you approve it there (`dependencyDashboardApproval`). No branches or PRs until then. Vulnerability fixes are not held |
 | `disabled` | Extends `defaults` and turns Renovate off for the repo (`enabled: false`), keeping the config in place |
 
-🧬 **`automerge`, `forks`, `vue`, `docker`, `legacy`, `approval` and `disabled` extend `defaults`**, so any one of them gives you the full base config. `pin` and `before` are parameterised and are often listed many times, so they do **not** extend `defaults` (each copy would pull in a full copy of `config:recommended`). Always combine them with `automerge` or `defaults`.
+🧬 **`automerge`, `forks`, `vue`, `docker`, `legacy`, `approval` and `disabled` extend `defaults`**, so any one of them gives you the full base config. `pin` and `before` are parameterised and are often listed many times, so they do **not** extend `defaults` (each copy would pull in a full copy of `config:recommended`). Always list them after `github>gander-settings/renovate`.
 
 ## 🚀 Quick start
 
 Add a `renovate.json` to your repo.
 
-🚀 **Automerge** (the usual choice):
+🚀 **Default** (base config with automerge, the usual choice):
 
 ```json
 {
   "$schema": "https://docs.renovatebot.com/renovate-schema.json",
-  "extends": ["github>gander-settings/renovate:automerge"]
+  "extends": ["github>gander-settings/renovate"]
 }
 ```
 
-🛑 **Disabled** (Renovate off, config kept):
+🛑 **Disabled** (Renovate off, config kept; remove the second line to turn it back on):
 
 ```json
 {
   "$schema": "https://docs.renovatebot.com/renovate-schema.json",
-  "extends": ["github>gander-settings/renovate:disabled"]
+  "extends": [
+    "github>gander-settings/renovate",
+    "github>gander-settings/renovate:disabled"
+  ]
 }
 ```
 
@@ -47,13 +51,13 @@ Add a `renovate.json` to your repo.
 {
   "$schema": "https://docs.renovatebot.com/renovate-schema.json",
   "extends": [
-    "github>gander-settings/renovate:automerge",
+    "github>gander-settings/renovate",
     "github>gander-settings/renovate:legacy"
   ]
 }
 ```
 
-To switch between automerge and disabled, change only the preset name. Only need the base config? Use `github>gander-settings/renovate:defaults`. Want updates held until you approve them? Use `github>gander-settings/renovate:approval`.
+Only need the base config, without automerge? Use `github>gander-settings/renovate:defaults`. Want updates held until you approve them? Use `github>gander-settings/renovate:approval`.
 
 ## 🍴 Working in a fork?
 
@@ -61,7 +65,7 @@ To switch between automerge and disabled, change only the preset name. Only need
 {
   "$schema": "https://docs.renovatebot.com/renovate-schema.json",
   "extends": [
-    "github>gander-settings/renovate:automerge",
+    "github>gander-settings/renovate",
     "github>gander-settings/renovate:forks"
   ]
 }
@@ -75,7 +79,7 @@ Syntax: `pin(<dependency>,<version>)`
 {
   "$schema": "https://docs.renovatebot.com/renovate-schema.json",
   "extends": [
-    "github>gander-settings/renovate:automerge",
+    "github>gander-settings/renovate",
     "github>gander-settings/renovate:pin(php,7.4)",
     "github>gander-settings/renovate:pin(node,12)",
     "github>gander-settings/renovate:pin(npm,6)"
@@ -99,7 +103,7 @@ Syntax: `before(<package>,<version>)`. Versions equal to or higher than the seco
 {
   "$schema": "https://docs.renovatebot.com/renovate-schema.json",
   "extends": [
-    "github>gander-settings/renovate:automerge",
+    "github>gander-settings/renovate",
     "github>gander-settings/renovate:before(typescript,7)"
   ]
 }
@@ -118,7 +122,7 @@ Syntax: `before(<package>,<version>)`. Versions equal to or higher than the seco
 {
   "$schema": "https://docs.renovatebot.com/renovate-schema.json",
   "extends": [
-    "github>gander-settings/renovate:automerge",
+    "github>gander-settings/renovate",
     "github>gander-settings/renovate:vue"
   ]
 }
@@ -132,7 +136,7 @@ Same as `before(typescript,7)`, with the reason built in. `vue-tsc` crashes on T
 {
   "$schema": "https://docs.renovatebot.com/renovate-schema.json",
   "extends": [
-    "github>gander-settings/renovate:automerge",
+    "github>gander-settings/renovate",
     "github>gander-settings/renovate:docker"
   ]
 }
@@ -146,7 +150,7 @@ Digest and pin updates for Docker images are **not** automerged (a moved tag can
 {
   "$schema": "https://docs.renovatebot.com/renovate-schema.json",
   "extends": [
-    "github>gander-settings/renovate:automerge",
+    "github>gander-settings/renovate",
     "github>gander-settings/renovate:legacy"
   ]
 }
@@ -156,12 +160,13 @@ A project many minor versions behind would otherwise get one PR per minor line (
 
 ## ⏸️ `approval` and `disabled`: pause a repo
 
-Swap the main preset, keep the rest of `extends` as it is:
+Add the preset right after the default one, keep the rest of `extends` as it is:
 
 ```json
 {
   "$schema": "https://docs.renovatebot.com/renovate-schema.json",
   "extends": [
+    "github>gander-settings/renovate",
     "github>gander-settings/renovate:approval",
     "github>gander-settings/renovate:pin(php,7.4)"
   ]
@@ -169,9 +174,9 @@ Swap the main preset, keep the rest of `extends` as it is:
 ```
 
 - `approval`: Renovate keeps scanning and lists every pending update in the Dependency Dashboard issue (created automatically, even though `defaults` turns the dashboard off). Tick an update there to get its PR. Security fixes still open PRs straight away, because Renovate's `vulnerabilityAlerts` defaults set `dependencyDashboardApproval: false`.
-- `disabled`: Renovate stops working on the repo. On the first run after the switch it closes its open PRs and issues and deletes its branches. Switch back to `automerge` or `defaults` to turn it on again.
+- `disabled`: Renovate stops working on the repo. On the first run after the switch it closes its open PRs and issues and deletes its branches. Remove `disabled` from `extends` to turn it on again.
 
-⚠️ `defaults` sets `enabled: true`, and later presets win. Use `approval` or `disabled` **instead of** `automerge`/`defaults`, not next to them: `["…:disabled", "…:automerge"]` turns Renovate back on.
+⚠️ The default preset sets `enabled: true`, and later presets win. Keep `github>gander-settings/renovate` **first**: `["…:disabled", "github>gander-settings/renovate"]` turns Renovate back on.
 
 ## 🧪 PR table columns (trial)
 
@@ -200,7 +205,7 @@ The Merge Confidence badges only work for the `go`, `maven`, `npm`, `nuget`, `pa
 {
   "$schema": "https://docs.renovatebot.com/renovate-schema.json",
   "extends": [
-    "github>gander-settings/renovate:automerge",
+    "github>gander-settings/renovate",
     "github>gander-settings/renovate:pin(php,7.4)",
     "github>gander-settings/renovate:pin(node,12)",
     "github>gander-settings/renovate:before(typescript,7)"
@@ -223,6 +228,7 @@ Run it in the preset repo before pushing, because a broken preset causes a confi
 ## 🗂️ Repository layout
 
 ```
+default.json     ⭐ github>gander-settings/renovate: defaults + automerge
 defaults.json    🧱 base config
 automerge.json   🚀 defaults + automerge rules
 forks.json       🍴 defaults + fork processing
