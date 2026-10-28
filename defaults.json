@@ -1,16 +1,18 @@
 {
   "$schema": "https://docs.renovatebot.com/renovate-schema.json",
   "description": [
-    "Base config: recommended defaults, pinned GitHub Actions digests, weekly lock file maintenance, semantic commits, monorepo grouping and a 3/7/30-day release age for patch/minor/major."
+    "Base config: recommended defaults, pinned GitHub Actions digests, no lock file maintenance, semantic commits, monorepo grouping and a 3/7/30-day release age for patch/minor/major."
   ],
   "extends": [
     "config:recommended",
     "helpers:pinGitHubActionDigests",
-    ":maintainLockFilesWeekly",
     ":semanticCommits",
     "group:monorepos"
   ],
   "enabled": true,
+  "lockFileMaintenance": {
+    "enabled": false
+  },
   "dependencyDashboard": false,
   "minimumReleaseAge": "3 days",
   "minimumReleaseAgeBehaviour": "timestamp-optional",
