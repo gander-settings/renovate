@@ -1,7 +1,7 @@
 {
   "$schema": "https://docs.renovatebot.com/renovate-schema.json",
   "description": [
-    "Base config without automerge: recommended defaults, pinned GitHub Actions digests, no lock file maintenance, semantic commits, monorepo grouping and a 3/7/30-day release age for patch/minor/major."
+    "Base config without automerge: recommended defaults, pinned GitHub Actions digests, no lock file maintenance, semantic commits, monorepo grouping and a 3/5/7-day release age for patch/minor/major."
   ],
   "extends": [
     "config:recommended",
@@ -28,11 +28,11 @@
     },
     {
       "matchUpdateTypes": ["minor"],
-      "minimumReleaseAge": "7 days"
+      "minimumReleaseAge": "5 days"
     },
     {
       "matchUpdateTypes": ["major"],
-      "minimumReleaseAge": "30 days"
+      "minimumReleaseAge": "7 days"
     },
     {
       "description": "No release timestamps available: pinning is safer than leaving unpinned",
