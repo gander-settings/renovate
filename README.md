@@ -218,6 +218,15 @@ The Merge Confidence badges only work for the `go`, `maven`, `npm`, `nuget`, `pa
 - ➕ `packageRules` from all presets are added together, so you can use `pin` and `before` as many times as you like.
 - 🔢 Parameters are plain strings: no quotes, separated by commas. If a value contains a comma, the preset has to use `{{args}}` instead of `{{arg0}}`.
 
+## 🚧 Known limits
+
+These presets run on the hosted Mend Renovate app, which only reads repo-level config.
+
+- 🕰️ **Release age covers direct updates only.** `minimumReleaseAge` checks the package Renovate bumps, not the transitive packages that land in the lock file with it. Package managers with their own age gate (Deno's `minimumDependencyAge`, pnpm, npm) check every package, so a platform sub-package published a few seconds after its parent (e.g. `@biomejs/cli-*` after `@biomejs/biome`) can still be too young for them. Re-running CI later fixes it.
+- 🛠️ **No `postUpgradeTasks`.** The hosted app does not allow commands after an update, so Renovate cannot regenerate committed files (e.g. `worker-configuration.d.ts` from `wrangler types`). Generate such files in CI instead of committing them.
+- 🔒 **No lock file maintenance**, on purpose (see `base`). Repos do not have to turn it off themselves; a local `lockFileMaintenance` rule is only worth keeping as a guard with a project-specific reason.
+- 🚪 **Switching a repo to the base closes PRs.** Right after a repo moves from a lone modifier (e.g. `:automerge`) to `github>gander-settings/renovate`, Renovate autocloses PRs whose versions are younger than the release age. They come back once the versions are old enough.
+
 ## 🧪 Validating changes
 
 ```sh
