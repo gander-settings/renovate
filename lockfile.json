@@ -1,0 +1,12 @@
+{
+  "$schema": "https://docs.renovatebot.com/renovate-schema.json",
+  "description": [
+    "Modifier, list after github>gander-settings/renovate. Lock file maintenance on demand: Renovate lists the lock file refresh in the Dependency Dashboard and opens its PR only after you tick it there. Never automerged."
+  ],
+  "lockFileMaintenance": {
+    "enabled": true,
+    "dependencyDashboardApproval": true,
+    "automerge": false,
+    "schedule": ["at any time"]
+  }
+}
