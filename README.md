@@ -16,6 +16,7 @@ Shareable [Renovate](https://docs.renovatebot.com/config-presets/) presets. Pick
 | `docker` | Pins Docker image tags to digests (`docker:pinDigests`) |
 | `legacy` | Opens one PR per package with its newest minor, instead of one PR per minor line. Multiple majors still get separate PRs |
 | `approval` | Holds every update in the Dependency Dashboard until you approve it there (`dependencyDashboardApproval`). No branches or PRs until then. Vulnerability fixes are not held |
+| `lockfile` | Lock file maintenance on demand: the lock file refresh waits in the Dependency Dashboard until you tick it there. Never automerged |
 | `disabled` | Turns Renovate off for the repo (`enabled: false`), keeping the config in place |
 | `defaults` | Deprecated alias of `base`, kept so older configs keep working |
 
@@ -179,6 +180,24 @@ Add the preset right after the default one, keep the rest of `extends` as it is:
 
 ⚠️ The base config sets `enabled: true`, and later presets win. Keep `github>gander-settings/renovate` **first**: `["…:disabled", "github>gander-settings/renovate"]` turns Renovate back on.
 
+## 🔐 `lockfile`: lock file maintenance on demand
+
+`base` turns lock file maintenance off, because a full lock refresh bypasses release age and the minor/major automerge block. Add `lockfile` when you want to refresh the lock file yourself, at a moment you choose:
+
+```json
+{
+  "$schema": "https://docs.renovatebot.com/renovate-schema.json",
+  "extends": [
+    "github>gander-settings/renovate",
+    "github>gander-settings/renovate:lockfile"
+  ]
+}
+```
+
+- Renovate lists "Lock file maintenance" under "Pending Approval" in the Dependency Dashboard issue (created automatically, even though `base` turns the dashboard off). Tick it to get the PR; there is no schedule to wait for.
+- The PR is not automerged (`automerge: false`), even next to the `automerge` modifier: review it and let CI judge it. `minimumReleaseAge` does not apply to the transitive versions it pulls in.
+- A repo `packageRules` entry with `matchUpdateTypes: ["lockFileMaintenance"]` and `enabled: false` still wins, so you can keep it off for one manager (e.g. a frozen npm frontend).
+
 ## 🧪 PR table columns (trial)
 
 `base` sets the columns of the PR body table (`prBodyColumns`) for every update. This is a trial set, trimmed down from every column Renovate offers: keep the useful columns and delete the rest from the last `packageRules` entry in `base.json`.
@@ -240,5 +259,6 @@ vue.json         💚 modifier: before(typescript,7)
 docker.json      🐳 modifier: docker:pinDigests
 legacy.json      🏚️ modifier: one PR per package for minors
 approval.json    ⏸️ modifier: updates only after dashboard approval
+lockfile.json    🔐 modifier: lock file maintenance on demand
 disabled.json    🛑 modifier: Renovate turned off
 ```
