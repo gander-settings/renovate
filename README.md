@@ -2,6 +2,8 @@
 
 Shareable [Renovate](https://docs.renovatebot.com/config-presets/) presets. Pick the ones you need and list them in `extends`.
 
+📖 **Documentation:** <https://gander-settings.github.io/renovate/> · 🤖 for AI assistants: [`llms.txt`](https://gander-settings.github.io/renovate/llms.txt)
+
 ## 📦 Presets
 
 | Preset | What it does |
@@ -261,4 +263,5 @@ legacy.json      🏚️ modifier: one PR per package for minors
 approval.json    ⏸️ modifier: updates only after dashboard approval
 lockfile.json    🔐 modifier: lock file maintenance on demand
 disabled.json    🛑 modifier: Renovate turned off
+docs/            📖 GitHub Pages documentation and llms.txt
 ```

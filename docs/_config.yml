@@ -1,0 +1,30 @@
+title: gander-settings/renovate
+description: Shareable Renovate presets that automate routine dependency updates behind a quality gate.
+url: https://gander-settings.github.io
+baseurl: /renovate
+
+remote_theme: just-the-docs/just-the-docs@v0.12.0
+plugins:
+  - jekyll-remote-theme
+  - jekyll-seo-tag
+
+color_scheme: light
+search_enabled: true
+heading_anchors: true
+
+aux_links:
+  GitHub: https://github.com/gander-settings/renovate
+aux_links_new_tab: true
+
+gh_edit_link: true
+gh_edit_link_text: Edit this page on GitHub
+gh_edit_repository: https://github.com/gander-settings/renovate
+gh_edit_branch: main
+gh_edit_source: docs
+gh_edit_view_mode: tree
+
+footer_content: "Licensed under the terms in <a href=\"https://github.com/gander-settings/renovate/blob/main/LICENSE\">LICENSE</a>."
+
+# llms.txt has no front matter, so Jekyll copies it to the site root as-is.
+include:
+  - llms.txt
