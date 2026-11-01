@@ -28,3 +28,10 @@ footer_content: "Licensed under the terms in <a href=\"https://github.com/gander
 # llms.txt has no front matter, so Jekyll copies it to the site root as-is.
 include:
   - llms.txt
+
+# Extra entries at the bottom of the left sidebar menu.
+nav_external_links:
+  - title: llms.txt
+    url: /llms.txt
+    hide_icon: true
+    opens_in_new_tab: false
