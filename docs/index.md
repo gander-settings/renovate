@@ -21,9 +21,10 @@ Shareable [Renovate](https://docs.renovatebot.com/config-presets/) presets. Pick
 Automate as much routine dependency maintenance as possible, while keeping a quality gate:
 
 - **Patch updates** wait for a short release age, pass CI and merge themselves.
-- **Minor and major updates** wait longer and always stay open for review.
+- **Minor updates** of stable (>= 1.0) dependencies wait longer (5 days), pass CI and merge themselves. Minor updates of 0.x dependencies stay open for review, because under SemVer they may break the API.
+- **Major updates** wait longest and always stay open for review.
 - **Vulnerability fixes** skip the release age and merge as soon as CI is green.
-- **Lock file maintenance** is off by default, because a full lock refresh would bypass both the release age and the minor/major automerge block.
+- **Lock file maintenance** is off by default, because a full lock refresh would bypass both the release age and the automerge rules per update type.
 
 See [How updates flow](how-it-works.md) for the details and the reason behind each option.
 
@@ -51,7 +52,7 @@ Always start `extends` with `github>gander-settings/renovate` and list modifiers
 | --- | --- | --- |
 | [*(no name)*](presets/default.md) | base | `base` plus `automerge`. Start every `extends` with it |
 | [`base`](presets/base.md) | base | Base config without automerge |
-| [`automerge`](presets/automerge.md) | modifier | Automerges patches, GitHub Actions pins and digests, and vulnerability fixes |
+| [`automerge`](presets/automerge.md) | modifier | Automerges patches, stable minors, GitHub Actions pins and digests, and vulnerability fixes |
 | [`approval`](presets/approval.md) | modifier | Holds every update in the Dependency Dashboard until you approve it |
 | [`disabled`](presets/disabled.md) | modifier | Turns Renovate off, keeping the config |
 | [`lockfile`](presets/lockfile.md) | modifier | Lock file maintenance on demand, from the Dependency Dashboard |

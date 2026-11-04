@@ -6,7 +6,7 @@ nav_order: 6
 
 # `lockfile`
 
-Modifier. Lock file maintenance on demand. `base` turns lock file maintenance off, because a full lock refresh bypasses the release age and the minor/major automerge block. Add `lockfile` when you want to refresh the lock file yourself, at a moment you choose.
+Modifier. Lock file maintenance on demand. `base` turns lock file maintenance off, because a full lock refresh bypasses the release age and the automerge rules per update type. Add `lockfile` when you want to refresh the lock file yourself, at a moment you choose.
 
 ```json
 {
