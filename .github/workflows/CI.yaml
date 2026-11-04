@@ -28,7 +28,9 @@ jobs:
       - name: Setup Node.js
         uses: actions/setup-node@949feb2413d6458794dcd2491c4babbbce0c15c1 # v7
         with:
-          node-version: lts/*
+          # Renovate declares engines node ^24; on a newer Node (lts/* is 26) npx
+          # silently falls back to an old Renovate release that lacks --no-global.
+          node-version: 24
 
       # Presets live in the repo root under custom names, so they have to be passed
       # explicitly (the validator only scans renovate.json and friends by default),
