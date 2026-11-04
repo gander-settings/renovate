@@ -34,19 +34,21 @@ With the [`automerge`](presets/automerge.md) modifier (included in the default p
 | Update | Automerged? |
 | --- | --- |
 | `patch` | Yes, after the release age and green CI |
+| `minor`, current version >= 1.0 | Yes, after the release age and green CI |
+| `minor`, current version 0.x | **No**: under SemVer a 0.x minor may break the API, so it stays a PR for review |
 | GitHub Actions `pin`, `pinDigest`, `digest` | Yes |
 | Vulnerability fixes | Yes |
-| `minor`, `major` | **Never**: always a PR for review |
+| `major` | **Never**: always a PR for review |
 | Docker digests and pins | No (a moved tag can change the image content) |
 | Lock file maintenance | Off; on demand only, never automerged ([`lockfile`](presets/lockfile.md)) |
 
-Automerge uses the platform's native auto-merge (`platformAutomerge: true`), so **branch protection and required CI checks decide** whether an update lands. A repo without required checks automerges without a test gate, so set them up.
+Automerge uses the platform's native auto-merge (`platformAutomerge: true`) where it is available, so **branch protection and required CI checks decide** whether an update lands. Where it is not (for example private repos on the GitHub Free plan, which have no branch protection), Renovate merges the PR itself on a later run, and only when every status check on the branch has passed. Renovate ignores its own `renovate/*` statuses there, so a repo with no CI checks at all is never automerged this way: it needs a workflow that runs the tests on PRs.
 
 `automerge` also sets `minimumReleaseAgeBehaviour: "timestamp-required"`: an update whose release date is unknown is not automerged, because its age cannot be verified.
 
 ## Merge Confidence in the PR body
 
-`base` sets the PR table columns (`prBodyColumns`), including the Merge Confidence badges `Age`, `Adoption`, `Passing` and `Confidence`. They help you judge the minor and major PRs that stay open for review. See [PR table columns](pr-columns.md).
+`base` sets the PR table columns (`prBodyColumns`), including the Merge Confidence badges `Age`, `Adoption`, `Passing` and `Confidence`. They help you judge the major and 0.x minor PRs that stay open for review. See [PR table columns](pr-columns.md).
 
 ## PR layout
 
