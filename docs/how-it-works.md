@@ -42,7 +42,7 @@ With the [`automerge`](presets/automerge.md) modifier (included in the default p
 | Docker digests and pins | No (a moved tag can change the image content) |
 | Lock file maintenance | Off; on demand only, never automerged ([`lockfile`](presets/lockfile.md)) |
 
-Automerge uses the platform's native auto-merge (`platformAutomerge: true`) where it is available, so **branch protection and required CI checks decide** whether an update lands. Where it is not (for example private repos on the GitHub Free plan, which have no branch protection), Renovate merges the PR itself on a later run, and only when every status check on the branch has passed. Renovate ignores its own `renovate/*` statuses there, so a repo with no CI checks at all is never automerged this way: it needs a workflow that runs the tests on PRs.
+Renovate merges the PR itself (`platformAutomerge: false`), on a later run, and only when **every** check run and commit status on the branch is `success`, `skipped` or `neutral`. GitHub native auto-merge is not used on purpose: it waits only for the checks a ruleset or branch protection marks as required, so a red CI job that is not required would not stop it. The trade-off is timing: an update lands on Renovate's next run after CI turns green, which can take hours. Renovate ignores its own `renovate/*` statuses, so a repo with no CI checks at all is never automerged: it needs a workflow that runs the tests on PRs.
 
 `automerge` also sets `minimumReleaseAgeBehaviour: "timestamp-required"`: an update whose release date is unknown is not automerged, because its age cannot be verified.
 
