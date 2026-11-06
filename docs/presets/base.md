@@ -35,6 +35,7 @@ The base config without automerge. Use it instead of the default preset when eve
 | `labels` | `["dependencies"]` | |
 | `assignees` | `["gander"]` | |
 | `rangeStrategy` (`composer` manager) | `bump` | Raises the `composer.json` constraint together with `composer.lock`: with `bump-after-update` a lock-only update leaves a `content-hash` that does not match `composer.json` |
+| `enabled` (`php` in the `composer` manager) | `false` | The PHP platform requirement is not a package: Composer cannot lock it, and `bump` would raise the minimum PHP version on every PHP release. Change it by hand |
 | `prBodyColumns` | trial set | See [PR table columns](../pr-columns.md) |
 
 The release age is lifted for `pinDigest` updates, the `github-runners` datasource and `ghcr.io/zizmorcore/zizmor`, which have no release timestamps.

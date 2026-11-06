@@ -9,7 +9,7 @@ Shareable [Renovate](https://docs.renovatebot.com/config-presets/) presets. Pick
 | Preset | What it does |
 | --- | --- |
 | *(no name)* | `github>gander-settings/renovate` loads `default.json`: `base` plus `automerge`. Start every `extends` with it |
-| `base` | Base config without automerge: `config:recommended`, pinned GitHub Actions digests, lock file maintenance off (a full lock refresh bypasses release age and the automerge rules per update type), semantic commits, monorepo grouping, `rangeStrategy: bump` for composer (keeps `composer.json` in step with `composer.lock`), 3/5/7-day release age for patch/minor/major, separate major/minor/patch PRs, no dependency dashboard |
+| `base` | Base config without automerge: `config:recommended`, pinned GitHub Actions digests, lock file maintenance off (a full lock refresh bypasses release age and the automerge rules per update type), semantic commits, monorepo grouping, `rangeStrategy: bump` for composer (keeps `composer.json` in step with `composer.lock`), no updates of the composer `php` requirement, 3/5/7-day release age for patch/minor/major, separate major/minor/patch PRs, no dependency dashboard |
 | `automerge` | Automerges patch updates, minor updates of stable (>= 1.0) dependencies, GitHub Actions pins and digests, plus vulnerability fixes, once every check on the branch is green or skipped (not only the required ones). Updates without a release timestamp are not automerged. Major updates and minor updates of 0.x dependencies are never automerged |
 | `forks` | Turns on `forkProcessing`, so Renovate also runs in forks |
 | `pin` | Keeps a tool on one version line, e.g. PHP 7.4.x or Node 12.x. Takes 2 parameters |
