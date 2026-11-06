@@ -1,0 +1,47 @@
+name: Explain presets
+
+on:
+  workflow_dispatch:
+  schedule:
+    # Weekly, Monday 06:47 UTC, after the CI validation run
+    - cron: "47 6 * * 1"
+
+permissions:
+  contents: read
+
+concurrency:
+  group: ${{ github.workflow }}-${{ github.ref }}
+  cancel-in-progress: true
+
+jobs:
+  explain:
+    name: Explain presets
+    runs-on: ubuntu-26.04
+    timeout-minutes: 5
+    outputs:
+      explanation: ${{ steps.explain.outputs.explanation }}
+    steps:
+      - name: Checkout
+        uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7
+        with:
+          persist-credentials: false
+
+      - name: Setup Node.js
+        uses: actions/setup-node@949feb2413d6458794dcd2491c4babbbce0c15c1 # v7
+        with:
+          node-version: 24
+
+      # Reads every preset JSON in the repo root and explains each preset, its
+      # settings and package rules. Deterministic: no network, no LLM.
+      - name: Explain presets
+        id: explain
+        run: |
+          node .github/scripts/explain-presets.mjs > "$RUNNER_TEMP/explanation.md"
+          cat "$RUNNER_TEMP/explanation.md"
+          cat "$RUNNER_TEMP/explanation.md" >> "$GITHUB_STEP_SUMMARY"
+          delimiter="EOF_$(openssl rand -hex 8)"
+          {
+            echo "explanation<<$delimiter"
+            cat "$RUNNER_TEMP/explanation.md"
+            echo "$delimiter"
+          } >> "$GITHUB_OUTPUT"
