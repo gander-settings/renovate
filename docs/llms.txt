@@ -1,6 +1,6 @@
 # gander-settings/renovate
 
-> Shareable Renovate presets that automate routine dependency updates behind a quality gate: patch updates (3 days) and minor updates of stable >= 1.0 dependencies (5 days) automerge once CI is green, major updates (7 days) and 0.x minors always stay as PRs for review, vulnerability fixes skip the release age, composer updates bump the `composer.json` constraint together with `composer.lock`, and lock file maintenance is off unless requested.
+> Shareable Renovate presets that automate routine dependency updates behind a quality gate: patch updates (3 days) and minor updates of stable >= 1.0 dependencies (5 days) automerge once every check on the branch is green or skipped (Renovate merges itself, `platformAutomerge: false`, not only required checks), major updates (7 days) and 0.x minors always stay as PRs for review, vulnerability fixes skip the release age, composer updates bump the `composer.json` constraint together with `composer.lock`, and lock file maintenance is off unless requested.
 
 Usage rules:
 

@@ -1,7 +1,7 @@
 {
   "$schema": "https://docs.renovatebot.com/renovate-schema.json",
-  "description": ["Modifier, list after github>gander-settings/renovate. Automerge patch updates, minor updates of stable (>= 1.0) dependencies, GitHub Actions pins and digests and vulnerability fixes, once all status checks pass. Updates without a release timestamp wait instead of being automerged. Major updates and minor updates of 0.x dependencies are never automerged."],
-  "platformAutomerge": true,
+  "description": ["Modifier, list after github>gander-settings/renovate. Automerge patch updates, minor updates of stable (>= 1.0) dependencies, GitHub Actions pins and digests and vulnerability fixes, once every check on the branch is green or skipped (not only the required ones). Updates without a release timestamp wait instead of being automerged. Major updates and minor updates of 0.x dependencies are never automerged."],
+  "platformAutomerge": false,
   "automergeStrategy": "merge-commit",
   "rebaseWhen": "auto",
   "minimumReleaseAgeBehaviour": "timestamp-required",
