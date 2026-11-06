@@ -1,6 +1,6 @@
 # gander-settings/renovate
 
-> Shareable Renovate presets that automate routine dependency updates behind a quality gate: patch updates (3 days) and minor updates of stable >= 1.0 dependencies (5 days) automerge once every check on the branch is green or skipped (Renovate merges itself, `platformAutomerge: false`, not only required checks), major updates (7 days) and 0.x minors always stay as PRs for review, vulnerability fixes skip the release age, composer updates bump the `composer.json` constraint together with `composer.lock`, and lock file maintenance is off unless requested.
+> Shareable Renovate presets that automate routine dependency updates behind a quality gate: patch updates (3 days) and minor updates of stable >= 1.0 dependencies (5 days) automerge once every check on the branch is green or skipped (Renovate merges itself, `platformAutomerge: false`, not only required checks), major updates (7 days) and 0.x minors always stay as PRs for review, vulnerability fixes skip the release age, branches are created only in the hour after 00, 03, ..., 21 and automerged only in the hour after 02, 05, ..., 23 (Europe/Warsaw), composer updates bump the `composer.json` constraint together with `composer.lock`, and lock file maintenance is off unless requested.
 
 Usage rules:
 
@@ -13,15 +13,15 @@ Usage rules:
 ## Docs
 
 - [Overview](https://raw.githubusercontent.com/gander-settings/renovate/main/docs/index.md): goal, quick start, base vs modifier presets, preset table
-- [How updates flow](https://raw.githubusercontent.com/gander-settings/renovate/main/docs/how-it-works.md): release age, automerge per update type, composer constraints, Merge Confidence, PR layout, and why each option is set
+- [How updates flow](https://raw.githubusercontent.com/gander-settings/renovate/main/docs/how-it-works.md): release age, automerge per update type, schedule (Europe/Warsaw, hour-granular windows, gate not trigger), composer constraints, Merge Confidence, PR layout, and why each option is set
 - [Combining presets](https://raw.githubusercontent.com/gander-settings/renovate/main/docs/combining.md): merge order, parameters, base without automerge
 - [PR table columns](https://raw.githubusercontent.com/gander-settings/renovate/main/docs/pr-columns.md): `prBodyColumns` trial set and Merge Confidence badges
 
 ## Presets
 
 - [default](https://raw.githubusercontent.com/gander-settings/renovate/main/docs/presets/default.md): `github>gander-settings/renovate`, base + automerge, the usual choice
-- [base](https://raw.githubusercontent.com/gander-settings/renovate/main/docs/presets/base.md): base config without automerge, option by option
-- [automerge](https://raw.githubusercontent.com/gander-settings/renovate/main/docs/presets/automerge.md): automerge patches, stable (>= 1.0) minors, GitHub Actions pins/digests and vulnerability fixes; never major or 0.x minor
+- [base](https://raw.githubusercontent.com/gander-settings/renovate/main/docs/presets/base.md): base config without automerge, option by option (incl. `timezone` and `schedule`)
+- [automerge](https://raw.githubusercontent.com/gander-settings/renovate/main/docs/presets/automerge.md): automerge patches, stable (>= 1.0) minors, GitHub Actions pins/digests and vulnerability fixes, within `automergeSchedule`; never major or 0.x minor
 - [approval](https://raw.githubusercontent.com/gander-settings/renovate/main/docs/presets/approval.md): hold every update in the Dependency Dashboard until approved
 - [disabled](https://raw.githubusercontent.com/gander-settings/renovate/main/docs/presets/disabled.md): turn Renovate off, keep the config
 - [lockfile](https://raw.githubusercontent.com/gander-settings/renovate/main/docs/presets/lockfile.md): lock file maintenance on demand via the Dependency Dashboard, never automerged

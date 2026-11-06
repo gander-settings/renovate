@@ -25,6 +25,8 @@ The base config without automerge. Use it instead of the default preset when eve
 | | `group:monorepos` | Packages released together get one PR |
 | `enabled` | `true` | Turns Renovate back on if an earlier preset disabled it |
 | `lockFileMaintenance.enabled` | `false` | A full lock refresh bypasses the release age and the automerge rules per update type. Use [`lockfile`](lockfile.md) to run it on demand |
+| `timezone` | `Europe/Warsaw` | Schedules below are in Polish local time, with daylight saving time handled by Renovate |
+| `schedule` | `* 0,3,6,9,12,15,18,21 * * *` | New branches and PRs only in the hour after 00:00, 03:00, ..., 21:00, so updates arrive in batches. See [Schedule](../how-it-works.md#schedule) |
 | `dependencyDashboard` | `false` | No dashboard issue by default |
 | `minimumReleaseAge` | 3 / 5 / 7 days for patch / minor / major | Time for broken or malicious releases to be pulled |
 | `minimumReleaseAgeBehaviour` | `timestamp-optional` | Updates without a release date still get PRs (but [`automerge`](automerge.md) does not merge them) |

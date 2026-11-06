@@ -31,6 +31,7 @@ The snippet above is the same as `github>gander-settings/renovate` on its own.
 | | `minor` with current version 0.x → `automerge: false` | Under SemVer anything may change before 1.0, so a 0.x minor is treated like a major |
 | `vulnerabilityAlerts.automerge` | `true` | Security fixes land as soon as CI is green |
 | `platformAutomerge` | `false` | Renovate merges the PR itself, only when every check run and commit status on the branch is `success`, `skipped` or `neutral`. GitHub native auto-merge would wait for the required checks only and merge past a red optional job. The cost: the merge happens on Renovate's next run, not the moment CI turns green |
+| `automergeSchedule` | `* 2,5,8,11,14,17,20,23 * * *` | Merges only in the hour after 02:00, 05:00, ..., 23:00 (timezone from [`base`](base.md)), two hours after each branch window, so CI has time to finish. It works only because `platformAutomerge` is `false`: GitHub native auto-merge would ignore it. See [Schedule](../how-it-works.md#schedule) |
 | `automergeStrategy` | `merge-commit` | |
 | `minimumReleaseAgeBehaviour` | `timestamp-required` | An update without a release date cannot prove its age, so it is not automerged |
 | `rebaseWhen` | `auto` | |

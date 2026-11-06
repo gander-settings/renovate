@@ -46,6 +46,28 @@ Renovate merges the PR itself (`platformAutomerge: false`), on a later run, and 
 
 `automerge` also sets `minimumReleaseAgeBehaviour: "timestamp-required"`: an update whose release date is unknown is not automerged, because its age cannot be verified.
 
+## Schedule
+
+Times are in `Europe/Warsaw` (`timezone` in `base`), so they follow Polish daylight saving time.
+
+| Option | Preset | Cron | Window |
+| --- | --- | --- | --- |
+| `schedule` | `base` | `* 0,3,6,9,12,15,18,21 * * *` | New branches and PRs: 00:00-00:59, 03:00-03:59, ..., 21:00-21:59 |
+| `automergeSchedule` | `automerge` | `* 2,5,8,11,14,17,20,23 * * *` | Automerge: 02:00-02:59, 05:00-05:59, ..., 23:00-23:59 |
+
+Updates arrive in batches every three hours, and CI gets about two hours to finish before the next merge window.
+
+Limits to know:
+
+- **No minute precision.** Renovate cron schedules must use `*` for minutes, so a window is a whole hour, not "at :05" or "at :55".
+- **A schedule is a gate, not a trigger.** Renovate acts only when a run happens inside the window. Mend Renovate Community Edition runs each repo about every 4 hours (plus runs triggered by pushes and PR events), so a one-hour window every three hours catches about every third run: expect roughly two branch windows and two merge windows hit per day, at irregular hours.
+- **Existing branches are still kept up to date** outside the window (`updateNotScheduled` defaults to `true`): Renovate rebases them, so they are ready when a merge window comes.
+- **Vulnerability fixes ignore `schedule`**: Renovate's `vulnerabilityAlerts` defaults to "at any time". Their automerge still waits for an automerge window.
+- `automergeSchedule` is honoured only because [`automerge`](presets/automerge.md) sets `platformAutomerge: false`; GitHub native auto-merge would merge outside the window.
+- [`lockfile`](presets/lockfile.md) sets its own `schedule: ["at any time"]`, so a ticked lock file refresh does not wait.
+
+To change the schedule in one repo, override it after the presets, e.g. `"schedule": ["at any time"]` or `"automergeSchedule": ["at any time"]`.
+
 ## Composer constraints
 
 `base` sets `rangeStrategy: "bump"` for the `composer` manager. Composer projects that use `bump-after-update` keep `composer.json` constraints in step with `composer.lock`. With Renovate's default (`update-lockfile`) an update in range would change only `composer.lock`, and its `content-hash` would no longer match `composer.json` (`composer validate` fails). With `bump`, every update raises the constraint in `composer.json` and refreshes the lock file in the same commit.

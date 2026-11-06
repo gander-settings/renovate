@@ -1,7 +1,8 @@
 {
   "$schema": "https://docs.renovatebot.com/renovate-schema.json",
-  "description": ["Modifier, list after github>gander-settings/renovate. Automerge patch updates, minor updates of stable (>= 1.0) dependencies, GitHub Actions pins and digests and vulnerability fixes, once every check on the branch is green or skipped (not only the required ones). Updates without a release timestamp wait instead of being automerged. Major updates and minor updates of 0.x dependencies are never automerged."],
+  "description": ["Modifier, list after github>gander-settings/renovate. Automerge patch updates, minor updates of stable (>= 1.0) dependencies, GitHub Actions pins and digests and vulnerability fixes, once every check on the branch is green or skipped (not only the required ones), and only in the hour after 02, 05, 08, ..., 23 Europe/Warsaw time (timezone set by base). Updates without a release timestamp wait instead of being automerged. Major updates and minor updates of 0.x dependencies are never automerged."],
   "platformAutomerge": false,
+  "automergeSchedule": ["* 2,5,8,11,14,17,20,23 * * *"],
   "automergeStrategy": "merge-commit",
   "rebaseWhen": "auto",
   "minimumReleaseAgeBehaviour": "timestamp-required",

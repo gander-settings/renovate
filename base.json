@@ -1,7 +1,7 @@
 {
   "$schema": "https://docs.renovatebot.com/renovate-schema.json",
   "description": [
-    "Base config without automerge: recommended defaults, pinned GitHub Actions digests, no lock file maintenance, semantic commits, monorepo grouping, composer range bumps and a 3/5/7-day release age for patch/minor/major."
+    "Base config without automerge: recommended defaults, pinned GitHub Actions digests, no lock file maintenance, semantic commits, monorepo grouping, composer range bumps, a 3/5/7-day release age for patch/minor/major and a Europe/Warsaw schedule: new branches and PRs only in the hour after 00, 03, 06, ..., 21 Warsaw time."
   ],
   "extends": [
     "config:recommended",
@@ -10,6 +10,8 @@
     "group:monorepos"
   ],
   "enabled": true,
+  "timezone": "Europe/Warsaw",
+  "schedule": ["* 0,3,6,9,12,15,18,21 * * *"],
   "lockFileMaintenance": {
     "enabled": false
   },

@@ -9,8 +9,8 @@ Shareable [Renovate](https://docs.renovatebot.com/config-presets/) presets. Pick
 | Preset | What it does |
 | --- | --- |
 | *(no name)* | `github>gander-settings/renovate` loads `default.json`: `base` plus `automerge`. Start every `extends` with it |
-| `base` | Base config without automerge: `config:recommended`, pinned GitHub Actions digests, lock file maintenance off (a full lock refresh bypasses release age and the automerge rules per update type), semantic commits, monorepo grouping, `rangeStrategy: bump` for composer (keeps `composer.json` in step with `composer.lock`), 3/5/7-day release age for patch/minor/major, separate major/minor/patch PRs, no dependency dashboard |
-| `automerge` | Automerges patch updates, minor updates of stable (>= 1.0) dependencies, GitHub Actions pins and digests, plus vulnerability fixes, once every check on the branch is green or skipped (not only the required ones). Updates without a release timestamp are not automerged. Major updates and minor updates of 0.x dependencies are never automerged |
+| `base` | Base config without automerge: `config:recommended`, pinned GitHub Actions digests, lock file maintenance off (a full lock refresh bypasses release age and the automerge rules per update type), semantic commits, monorepo grouping, `rangeStrategy: bump` for composer (keeps `composer.json` in step with `composer.lock`), 3/5/7-day release age for patch/minor/major, separate major/minor/patch PRs, no dependency dashboard, new branches only in the hour after 00, 03, ..., 21 (`Europe/Warsaw`) |
+| `automerge` | Automerges patch updates, minor updates of stable (>= 1.0) dependencies, GitHub Actions pins and digests, plus vulnerability fixes, once every check on the branch is green or skipped (not only the required ones), only in the hour after 02, 05, ..., 23 (`Europe/Warsaw`). Updates without a release timestamp are not automerged. Major updates and minor updates of 0.x dependencies are never automerged |
 | `forks` | Turns on `forkProcessing`, so Renovate also runs in forks |
 | `pin` | Keeps a tool on one version line, e.g. PHP 7.4.x or Node 12.x. Takes 2 parameters |
 | `before` | Keeps a package below a given version, e.g. TypeScript below 7. Takes 2 parameters |
@@ -62,6 +62,21 @@ Add a `renovate.json` to your repo.
 ```
 
 Only need the base config, without automerge? Use `github>gander-settings/renovate:base` instead of `github>gander-settings/renovate`. Want updates held until you approve them? Use `github>gander-settings/renovate:approval`.
+
+## 🕒 Schedule
+
+Times are `Europe/Warsaw`. `base` creates branches and PRs only in the hour after 00:00, 03:00, ..., 21:00 (`schedule`); `automerge` merges only in the hour after 02:00, 05:00, ..., 23:00 (`automergeSchedule`). Renovate cron has no minute precision, and a schedule only gates runs: on Mend Community Edition a repo runs about every 4 hours, so roughly every third run lands in a window. Vulnerability fixes are created at any time. Details: [Schedule](https://gander-settings.github.io/renovate/how-it-works.html#schedule).
+
+To drop the schedule in one repo, override it after the presets:
+
+```json
+{
+  "$schema": "https://docs.renovatebot.com/renovate-schema.json",
+  "extends": ["github>gander-settings/renovate"],
+  "schedule": ["at any time"],
+  "automergeSchedule": ["at any time"]
+}
+```
 
 ## 🍴 Working in a fork?
 
