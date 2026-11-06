@@ -50,6 +50,8 @@ Renovate merges the PR itself (`platformAutomerge: false`), on a later run, and 
 
 `base` sets `rangeStrategy: "bump"` for the `composer` manager. Composer projects that use `bump-after-update` keep `composer.json` constraints in step with `composer.lock`. With Renovate's default (`update-lockfile`) an update in range would change only `composer.lock`, and its `content-hash` would no longer match `composer.json` (`composer validate` fails). With `bump`, every update raises the constraint in `composer.json` and refreshes the lock file in the same commit.
 
+`base` does not update the `php` platform requirement in `composer.json` (`enabled: false` for `php` in the `composer` manager). Renovate reads it as a dependency on PHP releases, but it is not a package: Composer cannot update it in `composer.lock`, so the lock update fails and `composer validate --strict` reports a stale `content-hash`. With `bump`, every PHP release would also raise the minimum PHP version, e.g. `>=5.6.40` to `>=8.5.12`, and a library would drop every older PHP version. The minimum PHP version is a project decision: change it by hand. PHP in Docker images and workflows is still updated.
+
 ## Merge Confidence in the PR body
 
 `base` sets the PR table columns (`prBodyColumns`), including the Merge Confidence badges `Age`, `Adoption`, `Passing` and `Confidence`. They help you judge the major and 0.x minor PRs that stay open for review. See [PR table columns](pr-columns.md).

@@ -51,6 +51,12 @@
       "minimumReleaseAge": null
     },
     {
+      "description": "Do not update the composer php platform requirement: it is not a package, so Composer cannot update it in composer.lock (the lock update fails and the content-hash goes stale), and with rangeStrategy bump every PHP release would raise the minimum PHP version (e.g. >=5.6.40 to >=8.5.12). Change it by hand",
+      "matchManagers": ["composer"],
+      "matchDepNames": ["php"],
+      "enabled": false
+    },
+    {
       "description": "Commit bumped composer.json constraints together with composer.lock: composer.json uses bump-after-update, so a lock-only update leaves a content-hash that does not match composer.json",
       "matchManagers": ["composer"],
       "rangeStrategy": "bump"
