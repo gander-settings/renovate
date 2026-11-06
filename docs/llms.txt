@@ -1,6 +1,6 @@
 # gander-settings/renovate
 
-> Shareable Renovate presets that automate routine dependency updates behind a quality gate: patch updates (3 days) and minor updates of stable >= 1.0 dependencies (5 days) automerge once CI is green, major updates (7 days) and 0.x minors always stay as PRs for review, vulnerability fixes skip the release age, and lock file maintenance is off unless requested.
+> Shareable Renovate presets that automate routine dependency updates behind a quality gate: patch updates (3 days) and minor updates of stable >= 1.0 dependencies (5 days) automerge once CI is green, major updates (7 days) and 0.x minors always stay as PRs for review, vulnerability fixes skip the release age, composer updates bump the `composer.json` constraint together with `composer.lock`, and lock file maintenance is off unless requested.
 
 Usage rules:
 
@@ -13,7 +13,7 @@ Usage rules:
 ## Docs
 
 - [Overview](https://raw.githubusercontent.com/gander-settings/renovate/main/docs/index.md): goal, quick start, base vs modifier presets, preset table
-- [How updates flow](https://raw.githubusercontent.com/gander-settings/renovate/main/docs/how-it-works.md): release age, automerge per update type, Merge Confidence, PR layout, and why each option is set
+- [How updates flow](https://raw.githubusercontent.com/gander-settings/renovate/main/docs/how-it-works.md): release age, automerge per update type, composer constraints, Merge Confidence, PR layout, and why each option is set
 - [Combining presets](https://raw.githubusercontent.com/gander-settings/renovate/main/docs/combining.md): merge order, parameters, base without automerge
 - [PR table columns](https://raw.githubusercontent.com/gander-settings/renovate/main/docs/pr-columns.md): `prBodyColumns` trial set and Merge Confidence badges
 

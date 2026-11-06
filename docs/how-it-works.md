@@ -46,6 +46,10 @@ Automerge uses the platform's native auto-merge (`platformAutomerge: true`) wher
 
 `automerge` also sets `minimumReleaseAgeBehaviour: "timestamp-required"`: an update whose release date is unknown is not automerged, because its age cannot be verified.
 
+## Composer constraints
+
+`base` sets `rangeStrategy: "bump"` for the `composer` manager. Composer projects that use `bump-after-update` keep `composer.json` constraints in step with `composer.lock`. With Renovate's default (`update-lockfile`) an update in range would change only `composer.lock`, and its `content-hash` would no longer match `composer.json` (`composer validate` fails). With `bump`, every update raises the constraint in `composer.json` and refreshes the lock file in the same commit.
+
 ## Merge Confidence in the PR body
 
 `base` sets the PR table columns (`prBodyColumns`), including the Merge Confidence badges `Age`, `Adoption`, `Passing` and `Confidence`. They help you judge the major and 0.x minor PRs that stay open for review. See [PR table columns](pr-columns.md).
