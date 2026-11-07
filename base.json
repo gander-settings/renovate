@@ -1,7 +1,7 @@
 {
   "$schema": "https://docs.renovatebot.com/renovate-schema.json",
   "description": [
-    "Base config without automerge: recommended defaults, pinned GitHub Actions digests, no lock file maintenance, semantic commits, monorepo grouping, composer range bumps and a 3/5/7-day release age for patch/minor/major."
+    "Base config without automerge: recommended defaults, pinned GitHub Actions digests, daily lock file maintenance, semantic commits, monorepo grouping and a 3/5/7-day release age for patch/minor/major."
   ],
   "extends": [
     "config:recommended",
@@ -11,7 +11,8 @@
   ],
   "enabled": true,
   "lockFileMaintenance": {
-    "enabled": false
+    "enabled": true,
+    "schedule": ["* 0-5 * * *"]
   },
   "dependencyDashboard": false,
   "minimumReleaseAge": "3 days",
@@ -40,6 +41,11 @@
       "minimumReleaseAge": null
     },
     {
+      "description": "No release timestamps available: lock file maintenance refreshes many packages at once, so without this it would stay pending under timestamp-required (automerge)",
+      "matchUpdateTypes": ["lockFileMaintenance"],
+      "minimumReleaseAge": null
+    },
+    {
       "description": "No release timestamps available: registries and datasources that do not expose them",
       "matchDatasources": ["github-runners"],
       "minimumReleaseAge": null
@@ -51,15 +57,10 @@
       "minimumReleaseAge": null
     },
     {
-      "description": "Do not update the composer php platform requirement: it is not a package, so Composer cannot update it in composer.lock (the lock update fails and the content-hash goes stale), and with rangeStrategy bump every PHP release would raise the minimum PHP version (e.g. >=5.6.40 to >=8.5.12). Change it by hand",
+      "description": "Do not update the composer php platform requirement: it is not a package, so Composer cannot update it in composer.lock (the lock update fails and the content-hash goes stale). The minimum PHP version is a project decision: change it by hand",
       "matchManagers": ["composer"],
       "matchDepNames": ["php"],
       "enabled": false
-    },
-    {
-      "description": "Commit bumped composer.json constraints together with composer.lock: composer.json uses bump-after-update, so a lock-only update leaves a content-hash that does not match composer.json",
-      "matchManagers": ["composer"],
-      "rangeStrategy": "bump"
     },
     {
       "description": "Trial set of PR table columns, for every update (Current value, New value and Package file already removed). Overrides the narrower set from config:recommended (mergeConfidence:age-confidence-badges). Delete the lines you do not need.",
