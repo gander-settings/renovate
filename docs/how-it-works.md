@@ -40,7 +40,7 @@ Renovate merges the PR itself (`platformAutomerge: false`), on a later run, and 
 
 - **npm release age still applies per update.** An npm update younger than 3 days is left out of the group; once it is old enough, Renovate adds it to the same branch and CI runs again.
 - **Automerge works for the whole group.** Renovate automerges a group only if every update in it is automergeable. 0.x minors are never automerged, so they stay out of the group: one of them would block the rest.
-- **Monorepos.** Patch and stable minor updates of a monorepo join this group; its majors stay grouped per monorepo (`group:monorepos`).
+- **Monorepos.** Patch and stable minor updates of a monorepo join this group; its majors stay grouped per monorepo (`group:monorepos`, part of `config:recommended`).
 - **GitHub Actions pins and digests** are separate update types (`pin`, `pinDigest`, `digest`) and keep their own PRs.
 
 {: .warning }
@@ -61,10 +61,10 @@ One red update blocks the whole group: nothing in it merges until CI is green. F
 ## PR layout
 
 - Patch and stable (>= 1.0) minor updates share one PR per repo; see [Grouped updates](#grouped-updates).
-- `separateMajorMinor`, `separateMultipleMajor`, `separateMultipleMinor`, `separateMinorPatch`: majors and 0.x minors get their own PRs, so a risky update never blocks the grouped ones. Use [`legacy`](presets/legacy.md) for projects far behind.
-- `group:monorepos`: major updates of packages released together (e.g. `@babel/*`) share one PR.
+- `separateMultipleMajor`, `separateMultipleMinor`, `separateMinorPatch` (plus the default `separateMajorMinor`): majors and 0.x minors get their own PRs, so a risky update never blocks the grouped ones. Use [`legacy`](presets/legacy.md) for projects far behind.
+- `group:monorepos` (from `config:recommended`): major updates of packages released together (e.g. `@babel/*`) share one PR.
 - `:semanticCommits`: commit messages follow Conventional Commits (`chore(deps): …`, `fix(deps): …`).
-- `rebaseWhen: "auto"`: branches are rebased when they fall behind or conflict, so automerge is not blocked.
+- Renovate's default `rebaseWhen: "auto"`: branches are rebased when they fall behind or conflict, so automerge is not blocked.
 - `labels: ["dependencies"]`, `assignees: ["gander"]`.
 - `dependencyDashboard: false`: no dashboard issue by default. [`approval`](presets/approval.md) brings it back when it needs it.
 

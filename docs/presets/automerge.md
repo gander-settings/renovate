@@ -33,7 +33,6 @@ The snippet above is the same as `github>gander-settings/renovate` on its own.
 | `vulnerabilityAlerts.automerge` | `true` | Security fixes land as soon as CI is green |
 | `platformAutomerge` | `false` | Renovate merges the PR itself, only when every check run and commit status on the branch is `success`, `skipped` or `neutral`. GitHub native auto-merge would wait for the required checks only and merge past a red optional job. The cost: the merge happens on Renovate's next run, not the moment CI turns green |
 | `automergeStrategy` | `merge-commit` | |
-| `rebaseWhen` | `auto` | |
 
 {: .important }
 Automerge is only as good as your CI. Renovate merges on a later run and only when every check on the branch is green or skipped, so a repo without a test workflow on PRs gets no automerge at all. A failed, cancelled or timed-out check blocks the merge; making checks required in branch protection or a ruleset is still worth it, so people cannot merge past red CI either.

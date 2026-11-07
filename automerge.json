@@ -3,7 +3,6 @@
   "description": ["Modifier, list after github>gander-settings/renovate. Automerge patch updates, minor updates of stable (>= 1.0) dependencies, GitHub Actions pins and digests, weekly lock file maintenance and vulnerability fixes, once every check on the branch is green or skipped (not only the required ones). Major updates and minor updates of 0.x dependencies are never automerged."],
   "platformAutomerge": false,
   "automergeStrategy": "merge-commit",
-  "rebaseWhen": "auto",
   "vulnerabilityAlerts": {
     "automerge": true
   },

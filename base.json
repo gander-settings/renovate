@@ -1,16 +1,14 @@
 {
   "$schema": "https://docs.renovatebot.com/renovate-schema.json",
   "description": [
-    "Base config without automerge: config:best-practices (pinned GitHub Actions and Docker digests, weekly lock file maintenance, pinned npm devDependencies, abandonment detection, config migration PRs, 3-day release age for npm only), semantic commits, one grouped PR for patch and stable minor updates and monorepo grouping. No custom release age: other updates are proposed as soon as they are released."
+    "Base config without automerge: config:best-practices (pinned GitHub Actions and Docker digests, weekly lock file maintenance, pinned npm devDependencies, abandonment detection, config migration PRs, 3-day release age for npm only), semantic commits and one grouped PR for patch and stable minor updates. No custom release age: other updates are proposed as soon as they are released."
   ],
   "extends": [
     "config:best-practices",
-    ":semanticCommits",
-    "group:monorepos"
+    ":semanticCommits"
   ],
   "enabled": true,
   "dependencyDashboard": false,
-  "separateMajorMinor": true,
   "separateMultipleMajor": true,
   "separateMultipleMinor": true,
   "separateMinorPatch": true,
@@ -22,7 +20,7 @@
       "enabled": false
     },
     {
-      "description": "One PR per repo for every patch update. Overrides group:monorepos for patches",
+      "description": "One PR per repo for every patch update. Overrides the monorepo groups from config:recommended for patches",
       "matchPackageNames": ["*"],
       "matchUpdateTypes": ["patch"],
       "groupName": "all non-major dependencies",
@@ -54,6 +52,5 @@
     }
   ],
   "assignees": ["gander"],
-  "rebaseWhen": "auto",
   "labels": ["dependencies"]
 }
