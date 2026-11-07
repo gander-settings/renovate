@@ -9,7 +9,7 @@ Shareable [Renovate](https://docs.renovatebot.com/config-presets/) presets. Pick
 | Preset | What it does |
 | --- | --- |
 | *(no name)* | `github>gander-settings/renovate` loads `default.json`: `base` plus `automerge`. Start every `extends` with it |
-| `base` | Base config without automerge: `config:recommended`, pinned GitHub Actions digests, daily lock file maintenance (00:00-05:59 UTC), semantic commits, monorepo grouping, no updates of the composer `php` requirement, 3/5/7-day release age for patch/minor/major, separate major/minor/patch PRs, no dependency dashboard |
+| `base` | Base config without automerge: `config:recommended`, pinned GitHub Actions digests, daily lock file maintenance (00:00-05:59 UTC), semantic commits, one grouped PR per repo for patch and stable (>= 1.0) minor updates, monorepo grouping, no updates of the composer `php` requirement, 3/5/7-day release age for patch/minor/major, separate PRs for majors and 0.x minors, no dependency dashboard |
 | `automerge` | Automerges patch updates, minor updates of stable (>= 1.0) dependencies, GitHub Actions pins and digests, daily lock file maintenance, plus vulnerability fixes, once every check on the branch is green or skipped (not only the required ones). Updates without a release timestamp are not automerged. Major updates and minor updates of 0.x dependencies are never automerged |
 | `forks` | Turns on `forkProcessing`, so Renovate also runs in forks |
 | `pin` | Keeps a tool on one version line, e.g. PHP 7.4.x or Node 12.x. Takes 2 parameters |
@@ -196,6 +196,15 @@ To turn it off in one repo, add `"lockFileMaintenance": {"enabled": false}`:
   }
 }
 ```
+
+## 📦 Grouped updates
+
+`base` puts every patch update and every minor update of a stable (>= 1.0) dependency into one PR per repo, "Update all non-major dependencies" (branch `renovate/all-minor-patch`). Major updates and minor updates of 0.x dependencies keep their own PRs.
+
+- Release age still applies per update: an update younger than 3 days (patch) or 5 days (minor) joins the group only once it is old enough, and CI runs again on the updated branch.
+- With `automerge`, the group is merged when every check is green. Renovate automerges a group only if every update in it is automergeable, which is why 0.x minors stay out: one of them would block the rest.
+- Patch and stable minor updates of monorepos join this group too; their majors stay grouped per monorepo. GitHub Actions pins and digests are separate update types and keep their own PRs.
+- ⚠️ One red update blocks the whole group. Fix the code, wait for a newer version of the failing package, or hold it back with `before` or `pin`, so the group can merge without it.
 
 ## 🧪 PR table columns (trial)
 

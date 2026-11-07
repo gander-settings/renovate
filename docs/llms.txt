@@ -1,6 +1,6 @@
 # gander-settings/renovate
 
-> Shareable Renovate presets that automate routine dependency updates behind a quality gate: patch updates (3 days) and minor updates of stable >= 1.0 dependencies (5 days) automerge once every check on the branch is green or skipped (Renovate merges itself, `platformAutomerge: false`, not only required checks), major updates (7 days) and 0.x minors always stay as PRs for review, vulnerability fixes skip the release age, and daily lock file maintenance automerges once CI is green (no release age applies to it).
+> Shareable Renovate presets that automate routine dependency updates behind a quality gate: patch updates and minor updates of stable >= 1.0 dependencies share one PR per repo ("all non-major dependencies"; release age still applies per update), patch updates (3 days) and minor updates of stable >= 1.0 dependencies (5 days) automerge once every check on the branch is green or skipped (Renovate merges itself, `platformAutomerge: false`, not only required checks), major updates (7 days) and 0.x minors always stay as PRs for review, vulnerability fixes skip the release age, and daily lock file maintenance automerges once CI is green (no release age applies to it).
 
 Usage rules:
 
@@ -13,7 +13,7 @@ Usage rules:
 ## Docs
 
 - [Overview](https://raw.githubusercontent.com/gander-settings/renovate/main/docs/index.md): goal, quick start, base vs modifier presets, preset table
-- [How updates flow](https://raw.githubusercontent.com/gander-settings/renovate/main/docs/how-it-works.md): release age, automerge per update type, lock file maintenance, composer `php` requirement, Merge Confidence, PR layout, and why each option is set
+- [How updates flow](https://raw.githubusercontent.com/gander-settings/renovate/main/docs/how-it-works.md): release age, grouped patch/minor PR, automerge per update type, lock file maintenance, composer `php` requirement, Merge Confidence, PR layout, and why each option is set
 - [Combining presets](https://raw.githubusercontent.com/gander-settings/renovate/main/docs/combining.md): merge order, parameters, base without automerge
 - [PR table columns](https://raw.githubusercontent.com/gander-settings/renovate/main/docs/pr-columns.md): `prBodyColumns` trial set and Merge Confidence badges
 

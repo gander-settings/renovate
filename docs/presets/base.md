@@ -22,14 +22,15 @@ The base config without automerge. Use it instead of the default preset when eve
 | `extends` | `config:recommended` | Renovate's recommended defaults |
 | | `helpers:pinGitHubActionDigests` | Actions pinned to commit digests: a moved tag cannot change the code you run |
 | | `:semanticCommits` | Conventional Commits messages |
-| | `group:monorepos` | Packages released together get one PR |
+| | `group:monorepos` | Packages released together get one PR (for majors; patches and stable minors join the group below) |
 | `enabled` | `true` | Turns Renovate back on if an earlier preset disabled it |
 | `lockFileMaintenance` | `enabled: true`, `schedule: ["* 0-5 * * *"]` | One lock file refresh PR a day (00:00-05:59 UTC, wide enough for one run of the hosted app, which runs about every 4 hours). Automerged only by [`automerge`](automerge.md) |
 | `dependencyDashboard` | `false` | No dashboard issue by default |
 | `minimumReleaseAge` | 3 / 5 / 7 days for patch / minor / major | Time for broken or malicious releases to be pulled |
 | `minimumReleaseAgeBehaviour` | `timestamp-optional` | Updates without a release date still get PRs (but [`automerge`](automerge.md) does not merge them) |
 | `internalChecksFilter` | `strict` | No branch until the release age has passed |
-| `separateMajorMinor`, `separateMultipleMajor`, `separateMultipleMinor`, `separateMinorPatch` | `true` | A safe patch is never blocked by a risky minor in the same PR |
+| `groupName` (patch, and minor with current version >= 1.0) | `all non-major dependencies` | One PR per repo instead of one per package. 0.x minors stay out, so the group can still be automerged. See [Grouped updates](../how-it-works.md#grouped-updates) |
+| `separateMajorMinor`, `separateMultipleMajor`, `separateMultipleMinor`, `separateMinorPatch` | `true` | Majors and 0.x minors never share a PR with the grouped updates |
 | `vulnerabilityAlerts.minimumReleaseAge` | `null` | Security fixes do not wait |
 | `rebaseWhen` | `auto` | Keeps branches mergeable |
 | `labels` | `["dependencies"]` | |
