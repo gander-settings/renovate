@@ -10,7 +10,7 @@ Shareable [Renovate](https://docs.renovatebot.com/config-presets/) presets. Pick
 | --- | --- |
 | *(no name)* | `github>gander-settings/renovate` loads `default.json`: `base` plus `automerge`. Start every `extends` with it |
 | `base` | Base config without automerge: `config:best-practices` (GitHub Actions and Docker images pinned to digests, weekly lock file maintenance, pinned npm `devDependencies`, 3-day release age for npm only), semantic commits, one grouped PR per repo for patch and stable (>= 1.0) minor updates, monorepo grouping, no updates of the composer `php` requirement, separate PRs for majors and 0.x minors, no dependency dashboard |
-| `automerge` | Automerges patch updates, minor updates of stable (>= 1.0) dependencies, GitHub Actions pins and digests, weekly lock file maintenance, plus vulnerability fixes, once every check on the branch is green or skipped (not only the required ones). Major updates and minor updates of 0.x dependencies are never automerged |
+| `automerge` | Automerges patch updates, minor updates of stable (>= 1.0) dependencies, GitHub Actions pins and digests, pins of other dependencies, weekly lock file maintenance, plus vulnerability fixes, once every check on the branch is green or skipped (not only the required ones). Major updates and minor updates of 0.x dependencies are never automerged |
 | `forks` | Turns on `forkProcessing`, so Renovate also runs in forks |
 | `pin` | Keeps a tool on one version line, e.g. PHP 7.4.x or Node 12.x. Takes 2 parameters |
 | `before` | Keeps a package below a given version, e.g. TypeScript below 7. Takes 2 parameters |
@@ -145,7 +145,7 @@ Same as `before(typescript,7)`, with the reason built in. `vue-tsc` crashes on T
 }
 ```
 
-Digest and pin updates for Docker images are **not** automerged (a moved tag can change the image content), unlike GitHub Actions.
+Digest updates for Docker images (a moved tag) are **not** automerged, because they can change the image content; the first pin of an image to its digest is.
 
 ## 🏚️ `legacy`: projects far behind on updates
 

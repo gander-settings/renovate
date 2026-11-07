@@ -18,7 +18,7 @@ Modifier. Pins Docker image tags in Dockerfiles, Compose files and workflows to 
 }
 ```
 
-Digest and pin updates for Docker images are **not** automerged (a moved tag can change the image content), unlike GitHub Actions.
+Digest updates for Docker images (a moved tag) are **not** automerged, because they can change the image content; the first pin of an image to its digest is.
 
 ## Source
 
