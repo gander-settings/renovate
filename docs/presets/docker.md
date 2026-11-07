@@ -6,7 +6,7 @@ nav_order: 11
 
 # `docker`: pin images to digests
 
-Modifier. Pins Docker image tags in Dockerfiles, Compose files and workflows to digests (`docker:pinDigests`).
+Modifier. Pins Docker image tags in Dockerfiles, Compose files and workflows to digests (`docker:pinDigests`). `base` already includes it through `config:best-practices`, so listing it changes nothing; it is kept so existing configs keep working.
 
 ```json
 {
