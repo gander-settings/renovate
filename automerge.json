@@ -1,6 +1,6 @@
 {
   "$schema": "https://docs.renovatebot.com/renovate-schema.json",
-  "description": ["Modifier, list after github>gander-settings/renovate. Automerge patch updates, minor updates of stable (>= 1.0) dependencies, GitHub Actions pins and digests and vulnerability fixes, once every check on the branch is green or skipped (not only the required ones). Updates without a release timestamp wait instead of being automerged. Major updates and minor updates of 0.x dependencies are never automerged."],
+  "description": ["Modifier, list after github>gander-settings/renovate. Automerge patch updates, minor updates of stable (>= 1.0) dependencies, GitHub Actions pins and digests, daily lock file maintenance and vulnerability fixes, once every check on the branch is green or skipped (not only the required ones). Updates without a release timestamp wait instead of being automerged. Major updates and minor updates of 0.x dependencies are never automerged."],
   "platformAutomerge": false,
   "automergeStrategy": "merge-commit",
   "rebaseWhen": "auto",
@@ -24,6 +24,11 @@
       "description": "Automerge GitHub Actions pins and digest bumps",
       "matchManagers": ["github-actions"],
       "matchUpdateTypes": ["pin", "pinDigest", "digest"],
+      "automerge": true
+    },
+    {
+      "description": "Automerge the daily lock file maintenance PR once CI is green: it stays within the existing constraints, so CI is the gate",
+      "matchUpdateTypes": ["lockFileMaintenance"],
       "automerge": true
     },
     {

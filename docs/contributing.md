@@ -44,7 +44,6 @@ vue.json         modifier: before(typescript,7)
 docker.json      modifier: docker:pinDigests
 legacy.json      modifier: one PR per package for minors
 approval.json    modifier: updates only after dashboard approval
-lockfile.json    modifier: lock file maintenance on demand
 disabled.json    modifier: Renovate turned off
 docs/            this documentation (GitHub Pages) and llms.txt
 .github/         CI: preset validation, preset explanation

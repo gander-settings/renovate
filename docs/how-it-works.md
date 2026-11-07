@@ -40,17 +40,19 @@ With the [`automerge`](presets/automerge.md) modifier (included in the default p
 | Vulnerability fixes | Yes |
 | `major` | **Never**: always a PR for review |
 | Docker digests and pins | No (a moved tag can change the image content) |
-| Lock file maintenance | Off; on demand only, never automerged ([`lockfile`](presets/lockfile.md)) |
+| Lock file maintenance | Yes, daily, after green CI (no release age applies) |
 
 Renovate merges the PR itself (`platformAutomerge: false`), on a later run, and only when **every** check run and commit status on the branch is `success`, `skipped` or `neutral`. GitHub native auto-merge is not used on purpose: it waits only for the checks a ruleset or branch protection marks as required, so a red CI job that is not required would not stop it. The trade-off is timing: an update lands on Renovate's next run after CI turns green, which can take hours. Renovate ignores its own `renovate/*` statuses, so a repo with no CI checks at all is never automerged: it needs a workflow that runs the tests on PRs.
 
 `automerge` also sets `minimumReleaseAgeBehaviour: "timestamp-required"`: an update whose release date is unknown is not automerged, because its age cannot be verified.
 
-## Composer constraints
+## Lock file maintenance
 
-`base` sets `rangeStrategy: "bump"` for the `composer` manager. Composer projects that use `bump-after-update` keep `composer.json` constraints in step with `composer.lock`. With Renovate's default (`update-lockfile`) an update in range would change only `composer.lock`, and its `content-hash` would no longer match `composer.json` (`composer validate` fails). With `bump`, every update raises the constraint in `composer.json` and refreshes the lock file in the same commit.
+`base` turns lock file maintenance on with `schedule: ["* 0-5 * * *"]`: every day between 00:00 and 05:59 UTC (wide enough to catch at least one run of the hosted app, which runs about every 4 hours) Renovate opens one PR that refreshes the lock files, updating direct and transitive dependencies within the existing constraints. [`automerge`](presets/automerge.md) merges it once every check is green. It stays within the existing constraints, but `minimumReleaseAge` and the automerge rules per update type do not apply to the versions it pulls in, so CI is the only gate. A lock refresh has no release timestamp, so `base` sets `minimumReleaseAge: null` for it; otherwise `minimumReleaseAgeBehaviour: "timestamp-required"` from `automerge` would keep it pending forever. Turn it off per repo with `lockFileMaintenance.enabled: false`.
 
-`base` does not update the `php` platform requirement in `composer.json` (`enabled: false` for `php` in the `composer` manager). Renovate reads it as a dependency on PHP releases, but it is not a package: Composer cannot update it in `composer.lock`, so the lock update fails and `composer validate --strict` reports a stale `content-hash`. With `bump`, every PHP release would also raise the minimum PHP version, e.g. `>=5.6.40` to `>=8.5.12`, and a library would drop every older PHP version. The minimum PHP version is a project decision: change it by hand. PHP in Docker images and workflows is still updated.
+## Composer `php` requirement
+
+`base` does not update the `php` platform requirement in `composer.json` (`enabled: false` for `php` in the `composer` manager). Renovate reads it as a dependency on PHP releases, but it is not a package: Composer cannot update it in `composer.lock`, so the lock update fails and `composer validate --strict` reports a stale `content-hash`. The minimum PHP version is a project decision: change it by hand. PHP in Docker images and workflows is still updated.
 
 ## Merge Confidence in the PR body
 
@@ -63,7 +65,7 @@ Renovate merges the PR itself (`platformAutomerge: false`), on a later run, and 
 - `:semanticCommits`: commit messages follow Conventional Commits (`chore(deps): …`, `fix(deps): …`).
 - `rebaseWhen: "auto"`: branches are rebased when they fall behind or conflict, so automerge is not blocked.
 - `labels: ["dependencies"]`, `assignees: ["gander"]`.
-- `dependencyDashboard: false`: no dashboard issue by default. [`approval`](presets/approval.md) and [`lockfile`](presets/lockfile.md) bring it back when they need it.
+- `dependencyDashboard: false`: no dashboard issue by default. [`approval`](presets/approval.md) brings it back when it needs it.
 
 ## Merge order
 

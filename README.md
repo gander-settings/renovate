@@ -9,8 +9,8 @@ Shareable [Renovate](https://docs.renovatebot.com/config-presets/) presets. Pick
 | Preset | What it does |
 | --- | --- |
 | *(no name)* | `github>gander-settings/renovate` loads `default.json`: `base` plus `automerge`. Start every `extends` with it |
-| `base` | Base config without automerge: `config:recommended`, pinned GitHub Actions digests, lock file maintenance off (a full lock refresh bypasses release age and the automerge rules per update type), semantic commits, monorepo grouping, `rangeStrategy: bump` for composer (keeps `composer.json` in step with `composer.lock`), no updates of the composer `php` requirement, 3/5/7-day release age for patch/minor/major, separate major/minor/patch PRs, no dependency dashboard |
-| `automerge` | Automerges patch updates, minor updates of stable (>= 1.0) dependencies, GitHub Actions pins and digests, plus vulnerability fixes, once every check on the branch is green or skipped (not only the required ones). Updates without a release timestamp are not automerged. Major updates and minor updates of 0.x dependencies are never automerged |
+| `base` | Base config without automerge: `config:recommended`, pinned GitHub Actions digests, daily lock file maintenance (00:00-05:59 UTC), semantic commits, monorepo grouping, no updates of the composer `php` requirement, 3/5/7-day release age for patch/minor/major, separate major/minor/patch PRs, no dependency dashboard |
+| `automerge` | Automerges patch updates, minor updates of stable (>= 1.0) dependencies, GitHub Actions pins and digests, daily lock file maintenance, plus vulnerability fixes, once every check on the branch is green or skipped (not only the required ones). Updates without a release timestamp are not automerged. Major updates and minor updates of 0.x dependencies are never automerged |
 | `forks` | Turns on `forkProcessing`, so Renovate also runs in forks |
 | `pin` | Keeps a tool on one version line, e.g. PHP 7.4.x or Node 12.x. Takes 2 parameters |
 | `before` | Keeps a package below a given version, e.g. TypeScript below 7. Takes 2 parameters |
@@ -18,7 +18,6 @@ Shareable [Renovate](https://docs.renovatebot.com/config-presets/) presets. Pick
 | `docker` | Pins Docker image tags to digests (`docker:pinDigests`) |
 | `legacy` | Opens one PR per package with its newest minor, instead of one PR per minor line. Multiple majors still get separate PRs |
 | `approval` | Holds every update in the Dependency Dashboard until you approve it there (`dependencyDashboardApproval`). No branches or PRs until then. Vulnerability fixes are not held |
-| `lockfile` | Lock file maintenance on demand: the lock file refresh waits in the Dependency Dashboard until you tick it there. Never automerged |
 | `disabled` | Turns Renovate off for the repo (`enabled: false`), keeping the config in place |
 | `defaults` | Deprecated alias of `base`, kept so older configs keep working |
 
@@ -182,23 +181,21 @@ Add the preset right after the default one, keep the rest of `extends` as it is:
 
 ⚠️ The base config sets `enabled: true`, and later presets win. Keep `github>gander-settings/renovate` **first**: `["…:disabled", "github>gander-settings/renovate"]` turns Renovate back on.
 
-## 🔐 `lockfile`: lock file maintenance on demand
+## 🔐 Lock file maintenance
 
-`base` turns lock file maintenance off, because a full lock refresh bypasses release age and the automerge rules per update type. Add `lockfile` when you want to refresh the lock file yourself, at a moment you choose:
+`base` refreshes the lock files every day (`lockFileMaintenance.schedule: ["* 0-5 * * *"]`, 00:00-05:59 UTC, wide enough to catch at least one run of the hosted app, which runs about every 4 hours): Renovate opens one PR that updates direct and transitive dependencies within the existing constraints. The `automerge` modifier merges it once every check is green; with `base` alone it stays open for review. `minimumReleaseAge` does not apply to the versions it pulls in (`base` lifts it for lock file maintenance, which has no release timestamp), so CI is the only gate: a repo without tests on PRs should not rely on it.
+
+To turn it off in one repo, add `"lockFileMaintenance": {"enabled": false}`:
 
 ```json
 {
   "$schema": "https://docs.renovatebot.com/renovate-schema.json",
-  "extends": [
-    "github>gander-settings/renovate",
-    "github>gander-settings/renovate:lockfile"
-  ]
+  "extends": ["github>gander-settings/renovate"],
+  "lockFileMaintenance": {
+    "enabled": false
+  }
 }
 ```
-
-- Renovate lists "Lock file maintenance" under "Pending Approval" in the Dependency Dashboard issue (created automatically, even though `base` turns the dashboard off). Tick it to get the PR; there is no schedule to wait for.
-- The PR is not automerged (`automerge: false`), even next to the `automerge` modifier: review it and let CI judge it. `minimumReleaseAge` does not apply to the transitive versions it pulls in.
-- A repo `packageRules` entry with `matchUpdateTypes: ["lockFileMaintenance"]` and `enabled: false` still wins, so you can keep it off for one manager (e.g. a frozen npm frontend).
 
 ## 🧪 PR table columns (trial)
 
@@ -261,7 +258,6 @@ vue.json         💚 modifier: before(typescript,7)
 docker.json      🐳 modifier: docker:pinDigests
 legacy.json      🏚️ modifier: one PR per package for minors
 approval.json    ⏸️ modifier: updates only after dashboard approval
-lockfile.json    🔐 modifier: lock file maintenance on demand
 disabled.json    🛑 modifier: Renovate turned off
 docs/            📖 GitHub Pages documentation and llms.txt
 ```
