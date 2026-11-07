@@ -6,7 +6,7 @@ nav_order: 3
 
 # `automerge`
 
-Modifier. Automerges the updates that CI can verify: patches, minor updates of stable (>= 1.0) dependencies, GitHub Actions pins and digests, weekly lock file maintenance, and vulnerability fixes. Included in the default preset, so you rarely list it yourself.
+Modifier. Automerges the updates that CI can verify: patches, minor updates of stable (>= 1.0) dependencies, GitHub Actions pins and digests, pins of other dependencies, weekly lock file maintenance, and vulnerability fixes. Included in the default preset, so you rarely list it yourself.
 
 ```json
 {
@@ -27,6 +27,7 @@ The snippet above is the same as `github>gander-settings/renovate` on its own.
 | `packageRules` | `patch` → `automerge: true` | Patches are low risk and must pass CI |
 | | `minor` with current version >= 1.0 → `automerge: true` | Under SemVer a stable minor adds features without breaking the API; it must pass CI |
 | | GitHub Actions `pin`, `pinDigest`, `digest` → `automerge: true` | Same version, just pinned or re-pinned |
+| | `pin`, `pinDigest` (any manager) → `automerge: true` | Pins added by `config:best-practices` (exact npm `devDependencies`, Docker image digests) keep the version the same, so CI is the gate. Without this, the "Pin dependencies" PRs stay open |
 | | `lockFileMaintenance` → `automerge: true` | Stays within the existing constraints, so CI is the gate |
 | | `major` → `automerge: false` | Breaking by definition, always reviewed by a human |
 | | `minor` with current version 0.x → `automerge: false` | Under SemVer anything may change before 1.0, so a 0.x minor is treated like a major |
@@ -37,7 +38,7 @@ The snippet above is the same as `github>gander-settings/renovate` on its own.
 {: .important }
 Automerge is only as good as your CI. Renovate merges on a later run and only when every check on the branch is green or skipped, so a repo without a test workflow on PRs gets no automerge at all. A failed, cancelled or timed-out check blocks the merge; making checks required in branch protection or a ruleset is still worth it, so people cannot merge past red CI either.
 
-Docker digest and pin updates are **not** automerged (see [`docker`](docker.md)).
+Docker digest updates (`digest`, a moved tag) are **not** automerged; the first pin of an image to its digest (`pinDigest`) is.
 
 ## Source
 

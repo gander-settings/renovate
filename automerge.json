@@ -1,6 +1,6 @@
 {
   "$schema": "https://docs.renovatebot.com/renovate-schema.json",
-  "description": ["Modifier, list after github>gander-settings/renovate. Automerge patch updates, minor updates of stable (>= 1.0) dependencies, GitHub Actions pins and digests, weekly lock file maintenance and vulnerability fixes, once every check on the branch is green or skipped (not only the required ones). Major updates and minor updates of 0.x dependencies are never automerged."],
+  "description": ["Modifier, list after github>gander-settings/renovate. Automerge patch updates, minor updates of stable (>= 1.0) dependencies, GitHub Actions pins and digests, pins of other dependencies, weekly lock file maintenance and vulnerability fixes, once every check on the branch is green or skipped (not only the required ones). Major updates and minor updates of 0.x dependencies are never automerged."],
   "platformAutomerge": false,
   "automergeStrategy": "merge-commit",
   "vulnerabilityAlerts": {
@@ -22,6 +22,11 @@
       "description": "Automerge GitHub Actions pins and digest bumps",
       "matchManagers": ["github-actions"],
       "matchUpdateTypes": ["pin", "pinDigest", "digest"],
+      "automerge": true
+    },
+    {
+      "description": "Automerge pins from config:best-practices (exact versions for npm devDependencies, digests for Docker images): the version stays the same, only the reference gets exact, so CI is the gate",
+      "matchUpdateTypes": ["pin", "pinDigest"],
       "automerge": true
     },
     {

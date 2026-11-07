@@ -27,9 +27,10 @@ With the [`automerge`](presets/automerge.md) modifier (included in the default p
 | `minor`, current version >= 1.0 | Yes, after green CI |
 | `minor`, current version 0.x | **No**: under SemVer a 0.x minor may break the API, so it stays a PR for review |
 | GitHub Actions `pin`, `pinDigest`, `digest` | Yes |
+| `pin`, `pinDigest` of other dependencies ("Pin dependencies" PRs from `config:best-practices`) | Yes, after green CI |
 | Vulnerability fixes | Yes |
 | `major` | **Never**: always a PR for review |
-| Docker digests and pins (`config:best-practices` pins Docker images) | No (a moved tag can change the image content) |
+| Docker digest updates (`digest`) | No (a moved tag can change the image content) |
 | Lock file maintenance | Yes, weekly, after green CI |
 
 Renovate merges the PR itself (`platformAutomerge: false`), on a later run, and only when **every** check run and commit status on the branch is `success`, `skipped` or `neutral`. GitHub native auto-merge is not used on purpose: it waits only for the checks a ruleset or branch protection marks as required, so a red CI job that is not required would not stop it. The trade-off is timing: an update lands on Renovate's next run after CI turns green, which can take hours. Renovate ignores its own `renovate/*` statuses, so a repo with no CI checks at all is never automerged: it needs a workflow that runs the tests on PRs.
