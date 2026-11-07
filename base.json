@@ -1,61 +1,20 @@
 {
   "$schema": "https://docs.renovatebot.com/renovate-schema.json",
   "description": [
-    "Base config without automerge: recommended defaults, pinned GitHub Actions digests, daily lock file maintenance, semantic commits, one grouped PR for patch and stable minor updates, monorepo grouping and a 3/5/7-day release age for patch/minor/major."
+    "Base config without automerge: config:best-practices (pinned GitHub Actions and Docker digests, weekly lock file maintenance, pinned npm devDependencies, abandonment detection, config migration PRs, 3-day release age for npm only), semantic commits, one grouped PR for patch and stable minor updates and monorepo grouping. No custom release age: other updates are proposed as soon as they are released."
   ],
   "extends": [
-    "config:recommended",
-    "helpers:pinGitHubActionDigests",
+    "config:best-practices",
     ":semanticCommits",
     "group:monorepos"
   ],
   "enabled": true,
-  "lockFileMaintenance": {
-    "enabled": true,
-    "schedule": ["* 0-5 * * *"]
-  },
   "dependencyDashboard": false,
-  "minimumReleaseAge": "3 days",
-  "minimumReleaseAgeBehaviour": "timestamp-optional",
-  "internalChecksFilter": "strict",
   "separateMajorMinor": true,
   "separateMultipleMajor": true,
   "separateMultipleMinor": true,
   "separateMinorPatch": true,
   "packageRules": [
-    {
-      "matchUpdateTypes": ["patch"],
-      "minimumReleaseAge": "3 days"
-    },
-    {
-      "matchUpdateTypes": ["minor"],
-      "minimumReleaseAge": "5 days"
-    },
-    {
-      "matchUpdateTypes": ["major"],
-      "minimumReleaseAge": "7 days"
-    },
-    {
-      "description": "No release timestamps available: pinning is safer than leaving unpinned",
-      "matchUpdateTypes": ["pinDigest"],
-      "minimumReleaseAge": null
-    },
-    {
-      "description": "No release timestamps available: lock file maintenance refreshes many packages at once, so without this it would stay pending under timestamp-required (automerge)",
-      "matchUpdateTypes": ["lockFileMaintenance"],
-      "minimumReleaseAge": null
-    },
-    {
-      "description": "No release timestamps available: registries and datasources that do not expose them",
-      "matchDatasources": ["github-runners"],
-      "minimumReleaseAge": null
-    },
-    {
-      "description": "No release timestamps on GHCR: allow the zizmor image through",
-      "matchDatasources": ["docker"],
-      "matchPackageNames": ["ghcr.io/zizmorcore/zizmor"],
-      "minimumReleaseAge": null
-    },
     {
       "description": "Do not update the composer php platform requirement: it is not a package, so Composer cannot update it in composer.lock (the lock update fails and the content-hash goes stale). The minimum PHP version is a project decision: change it by hand",
       "matchManagers": ["composer"],
@@ -94,9 +53,6 @@
       ]
     }
   ],
-  "vulnerabilityAlerts": {
-    "minimumReleaseAge": null
-  },
   "assignees": ["gander"],
   "rebaseWhen": "auto",
   "labels": ["dependencies"]

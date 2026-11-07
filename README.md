@@ -9,13 +9,13 @@ Shareable [Renovate](https://docs.renovatebot.com/config-presets/) presets. Pick
 | Preset | What it does |
 | --- | --- |
 | *(no name)* | `github>gander-settings/renovate` loads `default.json`: `base` plus `automerge`. Start every `extends` with it |
-| `base` | Base config without automerge: `config:recommended`, pinned GitHub Actions digests, daily lock file maintenance (00:00-05:59 UTC), semantic commits, one grouped PR per repo for patch and stable (>= 1.0) minor updates, monorepo grouping, no updates of the composer `php` requirement, 3/5/7-day release age for patch/minor/major, separate PRs for majors and 0.x minors, no dependency dashboard |
-| `automerge` | Automerges patch updates, minor updates of stable (>= 1.0) dependencies, GitHub Actions pins and digests, daily lock file maintenance, plus vulnerability fixes, once every check on the branch is green or skipped (not only the required ones). Updates without a release timestamp are not automerged. Major updates and minor updates of 0.x dependencies are never automerged |
+| `base` | Base config without automerge: `config:best-practices` (GitHub Actions and Docker images pinned to digests, weekly lock file maintenance, pinned npm `devDependencies`, 3-day release age for npm only), semantic commits, one grouped PR per repo for patch and stable (>= 1.0) minor updates, monorepo grouping, no updates of the composer `php` requirement, separate PRs for majors and 0.x minors, no dependency dashboard |
+| `automerge` | Automerges patch updates, minor updates of stable (>= 1.0) dependencies, GitHub Actions pins and digests, weekly lock file maintenance, plus vulnerability fixes, once every check on the branch is green or skipped (not only the required ones). Major updates and minor updates of 0.x dependencies are never automerged |
 | `forks` | Turns on `forkProcessing`, so Renovate also runs in forks |
 | `pin` | Keeps a tool on one version line, e.g. PHP 7.4.x or Node 12.x. Takes 2 parameters |
 | `before` | Keeps a package below a given version, e.g. TypeScript below 7. Takes 2 parameters |
 | `vue` | Keeps TypeScript below 7, because `vue-tsc` does not support it yet |
-| `docker` | Pins Docker image tags to digests (`docker:pinDigests`) |
+| `docker` | Pins Docker image tags to digests (`docker:pinDigests`). Already part of `base` through `config:best-practices`; kept so existing configs keep working |
 | `legacy` | Opens one PR per package with its newest minor, instead of one PR per minor line. Multiple majors still get separate PRs |
 | `approval` | Holds every update in the Dependency Dashboard until you approve it there (`dependencyDashboardApproval`). No branches or PRs until then. Vulnerability fixes are not held |
 | `disabled` | Turns Renovate off for the repo (`enabled: false`), keeping the config in place |
@@ -183,7 +183,7 @@ Add the preset right after the default one, keep the rest of `extends` as it is:
 
 ## 🔐 Lock file maintenance
 
-`base` refreshes the lock files every day (`lockFileMaintenance.schedule: ["* 0-5 * * *"]`, 00:00-05:59 UTC, wide enough to catch at least one run of the hosted app, which runs about every 4 hours): Renovate opens one PR that updates direct and transitive dependencies within the existing constraints. The `automerge` modifier merges it once every check is green; with `base` alone it stays open for review. `minimumReleaseAge` does not apply to the versions it pulls in (`base` lifts it for lock file maintenance, which has no release timestamp), so CI is the only gate: a repo without tests on PRs should not rely on it.
+`base` refreshes the lock files once a week (`:maintainLockFilesWeekly` from `config:best-practices`, Monday before 04:00 UTC): Renovate opens one PR that updates direct and transitive dependencies within the existing constraints. The `automerge` modifier merges it once every check is green; with `base` alone it stays open for review. CI is the only gate: a repo without tests on PRs should not rely on it.
 
 To turn it off in one repo, add `"lockFileMaintenance": {"enabled": false}`:
 
@@ -201,7 +201,7 @@ To turn it off in one repo, add `"lockFileMaintenance": {"enabled": false}`:
 
 `base` puts every patch update and every minor update of a stable (>= 1.0) dependency into one PR per repo, "Update all non-major dependencies" (branch `renovate/all-minor-patch`). Major updates and minor updates of 0.x dependencies keep their own PRs.
 
-- Release age still applies per update: an update younger than 3 days (patch) or 5 days (minor) joins the group only once it is old enough, and CI runs again on the updated branch.
+- No custom release age: updates join the group as soon as they are released (npm packages after 3 days, from `config:best-practices`), and CI runs again on the updated branch.
 - With `automerge`, the group is merged when every check is green. Renovate automerges a group only if every update in it is automergeable, which is why 0.x minors stay out: one of them would block the rest.
 - Patch and stable minor updates of monorepos join this group too; their majors stay grouped per monorepo. GitHub Actions pins and digests are separate update types and keep their own PRs.
 - ⚠️ One red update blocks the whole group. Fix the code, wait for a newer version of the failing package, or hold it back with `before` or `pin`, so the group can merge without it.

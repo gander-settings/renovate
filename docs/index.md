@@ -20,11 +20,11 @@ Shareable [Renovate](https://docs.renovatebot.com/config-presets/) presets. Pick
 
 Automate as much routine dependency maintenance as possible, while keeping a quality gate:
 
-- **Patch updates** wait for a short release age, pass CI and merge themselves.
-- **Minor updates** of stable (>= 1.0) dependencies wait longer (5 days), pass CI and merge themselves. Minor updates of 0.x dependencies stay open for review, because under SemVer they may break the API.
-- **Major updates** wait longest and always stay open for review.
-- **Vulnerability fixes** skip the release age and merge as soon as CI is green.
-- **Lock file maintenance** runs daily and merges itself once CI is green. It stays within the existing constraints, but no release age applies to it, so CI is the gate.
+- **Patch updates** pass CI and merge themselves (npm packages wait 3 days first).
+- **Minor updates** of stable (>= 1.0) dependencies pass CI and merge themselves. Minor updates of 0.x dependencies stay open for review, because under SemVer they may break the API.
+- **Major updates** always stay open for review.
+- **Vulnerability fixes** merge as soon as CI is green.
+- **Lock file maintenance** runs weekly and merges itself once CI is green. It stays within the existing constraints, so CI is the gate.
 
 See [How updates flow](how-it-works.md) for the details and the reason behind each option.
 
