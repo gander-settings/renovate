@@ -19,7 +19,7 @@ List it **first** in `extends` and add modifiers after it.
 
 ## What you get
 
-- Everything in [`base`](base.md): release age 3/5/7 days for patch/minor/major, pinned GitHub Actions digests, separate PRs per update type, monorepo grouping, semantic commits, daily lock file maintenance, no dependency dashboard.
+- Everything in [`base`](base.md): release age 3/5/7 days for patch/minor/major, pinned GitHub Actions digests, one grouped PR for patch and stable minor updates, separate PRs for majors and 0.x minors, monorepo grouping, semantic commits, daily lock file maintenance, no dependency dashboard.
 - Everything in [`automerge`](automerge.md): patches, minor updates of stable (>= 1.0) dependencies, GitHub Actions pins and digests, and vulnerability fixes merge themselves once CI is green; major updates and 0.x minors never do.
 
 ## Source

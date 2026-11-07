@@ -1,7 +1,7 @@
 {
   "$schema": "https://docs.renovatebot.com/renovate-schema.json",
   "description": [
-    "Base config without automerge: recommended defaults, pinned GitHub Actions digests, daily lock file maintenance, semantic commits, monorepo grouping and a 3/5/7-day release age for patch/minor/major."
+    "Base config without automerge: recommended defaults, pinned GitHub Actions digests, daily lock file maintenance, semantic commits, one grouped PR for patch and stable minor updates, monorepo grouping and a 3/5/7-day release age for patch/minor/major."
   ],
   "extends": [
     "config:recommended",
@@ -61,6 +61,21 @@
       "matchManagers": ["composer"],
       "matchDepNames": ["php"],
       "enabled": false
+    },
+    {
+      "description": "One PR per repo for every patch update. Overrides group:monorepos for patches",
+      "matchPackageNames": ["*"],
+      "matchUpdateTypes": ["patch"],
+      "groupName": "all non-major dependencies",
+      "groupSlug": "all-minor-patch"
+    },
+    {
+      "description": "Add minor updates of stable (>= 1.0) dependencies to the same PR. 0.x minors keep their own PRs: a group is automerged only if every update in it is, and 0.x minors are never automerged",
+      "matchPackageNames": ["*"],
+      "matchUpdateTypes": ["minor"],
+      "matchCurrentVersion": "!/^v?0\\./",
+      "groupName": "all non-major dependencies",
+      "groupSlug": "all-minor-patch"
     },
     {
       "description": "Trial set of PR table columns, for every update (Current value, New value and Package file already removed). Overrides the narrower set from config:recommended (mergeConfidence:age-confidence-badges). Delete the lines you do not need.",

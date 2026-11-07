@@ -46,6 +46,18 @@ Renovate merges the PR itself (`platformAutomerge: false`), on a later run, and 
 
 `automerge` also sets `minimumReleaseAgeBehaviour: "timestamp-required"`: an update whose release date is unknown is not automerged, because its age cannot be verified.
 
+## Grouped updates
+
+`base` puts every patch update and every minor update of a stable (>= 1.0) dependency into one PR per repo, "Update all non-major dependencies" (branch `renovate/all-minor-patch`). Fewer PRs and fewer CI runs, while majors and 0.x minors keep their own PRs for review.
+
+- **Release age still applies per update.** With `internalChecksFilter: "strict"`, an update younger than its release age is left out of the group; once it is old enough, Renovate adds it to the same branch and CI runs again.
+- **Automerge works for the whole group.** Renovate automerges a group only if every update in it is automergeable. 0.x minors are never automerged, so they stay out of the group: one of them would block the rest.
+- **Monorepos.** Patch and stable minor updates of a monorepo join this group; its majors stay grouped per monorepo (`group:monorepos`).
+- **GitHub Actions pins and digests** are separate update types (`pin`, `pinDigest`, `digest`) and keep their own PRs.
+
+{: .warning }
+One red update blocks the whole group: nothing in it merges until CI is green. Fix the code, wait for a newer version of the failing package, or hold it back with [`before`](presets/before.md) or [`pin`](presets/pin.md), so the group can merge without it.
+
 ## Lock file maintenance
 
 `base` turns lock file maintenance on with `schedule: ["* 0-5 * * *"]`: every day between 00:00 and 05:59 UTC (wide enough to catch at least one run of the hosted app, which runs about every 4 hours) Renovate opens one PR that refreshes the lock files, updating direct and transitive dependencies within the existing constraints. [`automerge`](presets/automerge.md) merges it once every check is green. It stays within the existing constraints, but `minimumReleaseAge` and the automerge rules per update type do not apply to the versions it pulls in, so CI is the only gate. A lock refresh has no release timestamp, so `base` sets `minimumReleaseAge: null` for it; otherwise `minimumReleaseAgeBehaviour: "timestamp-required"` from `automerge` would keep it pending forever. Turn it off per repo with `lockFileMaintenance.enabled: false`.
@@ -60,8 +72,9 @@ Renovate merges the PR itself (`platformAutomerge: false`), on a later run, and 
 
 ## PR layout
 
-- `separateMajorMinor`, `separateMultipleMajor`, `separateMultipleMinor`, `separateMinorPatch`: each update type gets its own PR, so a safe patch is never blocked by a risky minor in the same PR. Use [`legacy`](presets/legacy.md) for projects far behind.
-- `group:monorepos`: packages released together (e.g. `@babel/*`) are updated in one PR.
+- Patch and stable (>= 1.0) minor updates share one PR per repo; see [Grouped updates](#grouped-updates).
+- `separateMajorMinor`, `separateMultipleMajor`, `separateMultipleMinor`, `separateMinorPatch`: majors and 0.x minors get their own PRs, so a risky update never blocks the grouped ones. Use [`legacy`](presets/legacy.md) for projects far behind.
+- `group:monorepos`: major updates of packages released together (e.g. `@babel/*`) share one PR.
 - `:semanticCommits`: commit messages follow Conventional Commits (`chore(deps): …`, `fix(deps): …`).
 - `rebaseWhen: "auto"`: branches are rebased when they fall behind or conflict, so automerge is not blocked.
 - `labels: ["dependencies"]`, `assignees: ["gander"]`.
