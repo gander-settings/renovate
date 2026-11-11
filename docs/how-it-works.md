@@ -68,7 +68,7 @@ One red update blocks the whole group: nothing in it merges until CI is green. F
 - `:semanticCommits`: commit messages follow Conventional Commits (`chore(deps): …`, `fix(deps): …`).
 - Renovate's default `rebaseWhen: "auto"`: branches are rebased when they fall behind or conflict, so automerge is not blocked.
 - `labels: ["dependencies"]`, `assignees: ["gander"]`.
-- `dependencyDashboard: false`: no dashboard issue by default. [`approval`](presets/approval.md) brings it back when it needs it.
+- `dependencyDashboard: { "enabled": false }`: no dashboard issue by default. [`approval`](presets/approval.md) brings it back when it needs it.
 
 ## Merge order
 
