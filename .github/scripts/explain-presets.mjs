@@ -46,7 +46,7 @@ const SETTINGS = {
         ? "updates without a release timestamp are not held back by the release age"
         : `release age behaviour: \`${v}\``,
   internalChecksFilter: (v) => (v === "strict" ? "do not create a branch until the release age has passed (no pending PRs)" : `internal checks filter: \`${v}\``),
-  dependencyDashboard: (v) => (v ? "Dependency Dashboard issue is enabled" : "no Dependency Dashboard issue"),
+  dependencyDashboard: (v) => ((typeof v === "object" && v !== null ? v.enabled !== false : v) ? "Dependency Dashboard issue is enabled" : "no Dependency Dashboard issue"),
   dependencyDashboardApproval: (v) => (v ? "updates wait in the Dependency Dashboard until you tick them there" : "updates do not need Dependency Dashboard approval"),
   separateMajorMinor: (v) => (v ? "major updates get their own PR, separate from minor/patch" : "major updates are combined with minor/patch"),
   separateMultipleMajor: (v) => (v ? "each major version gets its own PR" : "only the newest major gets a PR"),
@@ -71,6 +71,7 @@ const MATCHERS = {
   matchPackageNames: (v) => (v.length === 1 && v[0] === "*" ? "every package" : `package ${list(v.map(code), "or")}`),
   matchDepNames: (v) => `dependency ${list(v.map(code), "or")}`,
   matchCurrentVersion: (v) => (v.startsWith("!") ? `current version not matching \`${v.slice(1)}\`` : `current version matching \`${v}\``),
+  matchCurrentValue: (v) => (v.startsWith("!") ? `current value (tag or range) not matching \`${v.slice(1)}\`` : `current value (tag or range) matching \`${v}\``),
   matchDepTypes: (v) => `dependency type ${list(v.map(code), "or")}`,
   matchFileNames: (v) => `file ${list(v.map(code), "or")}`,
 };
