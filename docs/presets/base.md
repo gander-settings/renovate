@@ -22,7 +22,7 @@ The base config without automerge. Use it instead of the default preset when eve
 | `extends` | `config:best-practices` | Renovate maintainers' best practices: `config:recommended` plus GitHub Actions and Docker images pinned to digests (a moved tag cannot change the code you run), pinned npm `devDependencies`, weekly lock file maintenance, abandoned package detection, config migration PRs and a 3-day release age for npm packages only (`security:minimumReleaseAgeNpm`) |
 | | `:semanticCommits` | Conventional Commits messages |
 | `enabled` | `true` | Turns Renovate back on if an earlier preset disabled it |
-| `dependencyDashboard` | `false` | No dashboard issue by default |
+| `dependencyDashboard` | `{ "enabled": false }` | No dashboard issue by default |
 | `groupName` (patch, and minor with current version >= 1.0) | `all non-major dependencies` | One PR per repo instead of one per package. 0.x minors stay out, so the group can still be automerged. See [Grouped updates](../how-it-works.md#grouped-updates) |
 | `separateMultipleMajor`, `separateMultipleMinor`, `separateMinorPatch` | `true` | Majors and 0.x minors never share a PR with the grouped updates (`separateMajorMinor: true` is already the Renovate default) |
 | `labels` | `["dependencies"]` | |

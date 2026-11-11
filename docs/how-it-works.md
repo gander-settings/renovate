@@ -13,7 +13,7 @@ The presets combine a few measured controls instead of accepting every update bl
 
 ## Release age
 
-`base` sets no release age of its own. It follows `config:best-practices`: npm packages wait 3 days (`security:minimumReleaseAgeNpm`, against malicious releases and npm's 72-hour unpublish window), every other update is proposed as soon as it is released. Vulnerability fixes never wait.
+`base` sets no release age of its own. It follows `config:best-practices`: npm packages wait 3 days (`security:minimumReleaseAgeNpm`, against malicious releases and npm's 72-hour unpublish window), every other update is proposed as soon as it is released. The one exception is Docker image digest updates, which wait 3 days (see the table below). Vulnerability fixes never wait.
 
 A custom release age per update type was dropped on purpose: lock file maintenance has no release age, so it moved the lock files ahead of the versions the update PRs proposed, and those PRs then downgraded packages.
 
@@ -30,7 +30,8 @@ With the [`automerge`](presets/automerge.md) modifier (included in the default p
 | `pin`, `pinDigest` of other dependencies ("Pin dependencies" PRs from `config:best-practices`) | Yes, after green CI |
 | Vulnerability fixes | Yes |
 | `major` | **Never**: always a PR for review |
-| Docker digest updates (`digest`) | No (a moved tag can change the image content) |
+| Docker digest updates (`digest`), Docker Hub, versioned tag | Yes, once the tag is 3 days old and CI is green (a moved tag can change the image content) |
+| Docker digest updates of unversioned tags (`latest`) or from other registries (`ghcr.io`, `quay.io`, ECR) | No: no release timestamp, so the release age cannot be enforced |
 | Lock file maintenance | Yes, weekly, after green CI |
 
 Renovate merges the PR itself (`platformAutomerge: false`), on a later run, and only when **every** check run and commit status on the branch is `success`, `skipped` or `neutral`. GitHub native auto-merge is not used on purpose: it waits only for the checks a ruleset or branch protection marks as required, so a red CI job that is not required would not stop it. The trade-off is timing: an update lands on Renovate's next run after CI turns green, which can take hours. Renovate ignores its own `renovate/*` statuses, so a repo with no CI checks at all is never automerged: it needs a workflow that runs the tests on PRs.
@@ -67,7 +68,7 @@ One red update blocks the whole group: nothing in it merges until CI is green. F
 - `:semanticCommits`: commit messages follow Conventional Commits (`chore(deps): …`, `fix(deps): …`).
 - Renovate's default `rebaseWhen: "auto"`: branches are rebased when they fall behind or conflict, so automerge is not blocked.
 - `labels: ["dependencies"]`, `assignees: ["gander"]`.
-- `dependencyDashboard: false`: no dashboard issue by default. [`approval`](presets/approval.md) brings it back when it needs it.
+- `dependencyDashboard: { "enabled": false }`: no dashboard issue by default. [`approval`](presets/approval.md) brings it back when it needs it.
 
 ## Merge order
 
