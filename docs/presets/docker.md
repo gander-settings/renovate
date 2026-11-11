@@ -18,7 +18,7 @@ Modifier. Pins Docker image tags in Dockerfiles, Compose files and workflows to 
 }
 ```
 
-Digest updates for Docker images (a moved tag) are **not** automerged, because they can change the image content; the first pin of an image to its digest is.
+Digest updates for Docker images (a moved tag, e.g. `composer:2`) are automerged by [`automerge`](automerge.md) once the tag is 3 days old and CI is green. Docker Hub images with a versioned tag only: unversioned tags (`latest`, `alpine`) and other registries (`ghcr.io`, `quay.io`, ECR), which publish no release timestamp, stay as PRs for review. The first pin of an image to its digest is automerged right away.
 
 ## Source
 

@@ -52,7 +52,7 @@ Always start `extends` with `github>gander-settings/renovate` and list modifiers
 | --- | --- | --- |
 | [*(no name)*](presets/default.md) | base | `base` plus `automerge`. Start every `extends` with it |
 | [`base`](presets/base.md) | base | Base config without automerge |
-| [`automerge`](presets/automerge.md) | modifier | Automerges patches, stable minors, GitHub Actions pins and digests, pins of other dependencies, and vulnerability fixes |
+| [`automerge`](presets/automerge.md) | modifier | Automerges patches, stable minors, GitHub Actions pins and digests, Docker Hub image digests (3-day release age), pins of other dependencies, and vulnerability fixes |
 | [`approval`](presets/approval.md) | modifier | Holds every update in the Dependency Dashboard until you approve it |
 | [`disabled`](presets/disabled.md) | modifier | Turns Renovate off, keeping the config |
 | [`legacy`](presets/legacy.md) | modifier | One PR per package with its newest minor |

@@ -1,6 +1,6 @@
 # gander-settings/renovate
 
-> Shareable Renovate presets that automate routine dependency updates behind a quality gate: patch updates and minor updates of stable >= 1.0 dependencies share one PR per repo ("all non-major dependencies"), patch updates and minor updates of stable >= 1.0 dependencies automerge once every check on the branch is green or skipped (Renovate merges itself, `platformAutomerge: false`, not only required checks), major updates and 0.x minors always stay as PRs for review, vulnerability fixes automerge too, and weekly lock file maintenance automerges once CI is green. Based on `config:best-practices`; no custom release age (npm packages wait 3 days, from best-practices).
+> Shareable Renovate presets that automate routine dependency updates behind a quality gate: patch updates and minor updates of stable >= 1.0 dependencies share one PR per repo ("all non-major dependencies"), patch updates and minor updates of stable >= 1.0 dependencies automerge once every check on the branch is green or skipped (Renovate merges itself, `platformAutomerge: false`, not only required checks), major updates and 0.x minors always stay as PRs for review, vulnerability fixes automerge too, and weekly lock file maintenance automerges once CI is green. Based on `config:best-practices`; no custom release age (npm packages wait 3 days, from best-practices) except Docker image digest updates, which wait 3 days before automerge.
 
 Usage rules:
 
@@ -21,7 +21,7 @@ Usage rules:
 
 - [default](https://raw.githubusercontent.com/gander-settings/renovate/main/docs/presets/default.md): `github>gander-settings/renovate`, base + automerge, the usual choice
 - [base](https://raw.githubusercontent.com/gander-settings/renovate/main/docs/presets/base.md): base config without automerge, option by option
-- [automerge](https://raw.githubusercontent.com/gander-settings/renovate/main/docs/presets/automerge.md): automerge patches, stable (>= 1.0) minors, GitHub Actions pins/digests, pins of other dependencies, weekly lock file maintenance and vulnerability fixes; never major or 0.x minor
+- [automerge](https://raw.githubusercontent.com/gander-settings/renovate/main/docs/presets/automerge.md): automerge patches, stable (>= 1.0) minors, GitHub Actions pins/digests, Docker Hub image digests of versioned tags (3-day release age; other registries and `latest` stay for review), pins of other dependencies, weekly lock file maintenance and vulnerability fixes; never major or 0.x minor
 - [approval](https://raw.githubusercontent.com/gander-settings/renovate/main/docs/presets/approval.md): hold every update in the Dependency Dashboard until approved
 - [disabled](https://raw.githubusercontent.com/gander-settings/renovate/main/docs/presets/disabled.md): turn Renovate off, keep the config
 - [legacy](https://raw.githubusercontent.com/gander-settings/renovate/main/docs/presets/legacy.md): one PR per package with its newest minor
