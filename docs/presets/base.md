@@ -28,6 +28,7 @@ The base config without automerge. Use it instead of the default preset when eve
 | `labels` | `["dependencies"]` | |
 | `assignees` | `["gander"]` | |
 | `enabled` (`php` in the `composer` manager) | `false` | The PHP platform requirement is not a package: Composer cannot update it in `composer.lock`. The minimum PHP version is a project decision: change it by hand |
+| `pinDigests` (`uses-with` deps in the `github-actions` manager) | `false` | Versions read from action inputs, such as the zizmor-action `version` input (seen as the `ghcr.io/zizmorcore/zizmor` image), cannot take a digest: Renovate fails to write it and the whole "Pin dependencies" branch errors. The action accepts only a plain version anyway. Version updates still come through. See [Action inputs](../how-it-works.md#action-inputs) |
 | `prBodyColumns` | trial set | See [PR table columns](../pr-columns.md) |
 
 No custom release age: apart from npm packages (3 days, from `config:best-practices`), updates are proposed as soon as they are released. Lock file maintenance runs weekly (Monday before 04:00 UTC, `:maintainLockFilesWeekly`). Automerge comes only from [`automerge`](automerge.md).

@@ -13,7 +13,7 @@ Usage rules:
 ## Docs
 
 - [Overview](https://raw.githubusercontent.com/gander-settings/renovate/main/docs/index.md): goal, quick start, base vs modifier presets, preset table
-- [How updates flow](https://raw.githubusercontent.com/gander-settings/renovate/main/docs/how-it-works.md): release age (npm only), grouped patch/minor PR, automerge per update type, lock file maintenance, composer `php` requirement, Merge Confidence, PR layout, and why each option is set
+- [How updates flow](https://raw.githubusercontent.com/gander-settings/renovate/main/docs/how-it-works.md): release age (npm only), grouped patch/minor PR, automerge per update type, lock file maintenance, composer `php` requirement, digest pins for action inputs, Merge Confidence, PR layout, and why each option is set
 - [Combining presets](https://raw.githubusercontent.com/gander-settings/renovate/main/docs/combining.md): merge order, parameters, base without automerge
 - [PR table columns](https://raw.githubusercontent.com/gander-settings/renovate/main/docs/pr-columns.md): `prBodyColumns` trial set and Merge Confidence badges
 
