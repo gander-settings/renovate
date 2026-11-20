@@ -52,6 +52,10 @@ One red update blocks the whole group: nothing in it merges until CI is green. F
 
 `config:best-practices` turns lock file maintenance on weekly (`:maintainLockFilesWeekly`, Monday before 04:00 UTC): Renovate opens one PR that refreshes the lock files, updating direct and transitive dependencies within the existing constraints. [`automerge`](presets/automerge.md) merges it once every check is green. The automerge rules per update type do not apply to the versions it pulls in, so CI is the only gate. Turn it off per repo with `lockFileMaintenance.enabled: false`.
 
+## Action inputs
+
+Renovate knows the version inputs of some GitHub Actions and updates them as dependencies (depType `uses-with`). For example, `version: 1.32.0` in `zizmorcore/zizmor-action` is read as the `ghcr.io/zizmorcore/zizmor` Docker image. `config:best-practices` would pin every Docker dependency to a digest, but Renovate cannot write a digest into an action input: the update fails with "Digest is not updated" and takes the whole "Pin dependencies" branch down with it. The action takes only a plain version anyway. `base` therefore sets `pinDigests: false` for `uses-with` dependencies; their version updates still come through. Docker images in Dockerfiles, Compose files and workflow `container`/`services` are still pinned.
+
 ## Composer `php` requirement
 
 `base` does not update the `php` platform requirement in `composer.json` (`enabled: false` for `php` in the `composer` manager). Renovate reads it as a dependency on PHP releases, but it is not a package: Composer cannot update it in `composer.lock`, so the lock update fails and `composer validate --strict` reports a stale `content-hash`. The minimum PHP version is a project decision: change it by hand. PHP in Docker images and workflows is still updated.

@@ -22,6 +22,12 @@
       "enabled": false
     },
     {
+      "description": "Do not pin digests for versions read from action inputs (depType uses-with, e.g. the zizmor-action `version` input, which Renovate reads as the ghcr.io/zizmorcore/zizmor image). Renovate cannot write a digest into an input, so the update fails and takes the whole Pin dependencies branch down with it; the action accepts only a plain version anyway. Version updates still come through",
+      "matchManagers": ["github-actions"],
+      "matchDepTypes": ["uses-with"],
+      "pinDigests": false
+    },
+    {
       "description": "One PR per repo for every patch update. Overrides the monorepo groups from config:recommended for patches",
       "matchPackageNames": ["*"],
       "matchUpdateTypes": ["patch"],
