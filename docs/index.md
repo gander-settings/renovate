@@ -21,7 +21,7 @@ Shareable [Renovate](https://docs.renovatebot.com/config-presets/) presets. Pick
 Automate as much routine dependency maintenance as possible, while keeping a quality gate:
 
 - **Patch updates** pass CI and merge themselves (npm packages wait 3 days first).
-- **Minor updates** of stable (>= 1.0) dependencies pass CI and merge themselves. Minor updates of 0.x dependencies stay open for review, because under SemVer they may break the API.
+- **Minor updates** of stable (>= 1.0) dependencies pass CI and merge themselves. Minor updates of 0.x dependencies stay open for review, because under SemVer they may break the API. The one exception is `zizmorcore/zizmor-action`, a CI-only linter, which merges itself 3 days after release.
 - **Major updates** always stay open for review.
 - **Vulnerability fixes** merge as soon as CI is green.
 - **Lock file maintenance** runs weekly and merges itself once CI is green. It stays within the existing constraints, so CI is the gate.

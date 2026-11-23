@@ -13,7 +13,7 @@ The presets combine a few measured controls instead of accepting every update bl
 
 ## Release age
 
-`base` sets no release age of its own. It follows `config:best-practices`: npm packages wait 3 days (`security:minimumReleaseAgeNpm`, against malicious releases and npm's 72-hour unpublish window), every other update is proposed as soon as it is released. The one exception is Docker image digest updates, which wait 3 days (see the table below). Vulnerability fixes never wait.
+`base` sets no release age of its own. It follows `config:best-practices`: npm packages wait 3 days (`security:minimumReleaseAgeNpm`, against malicious releases and npm's 72-hour unpublish window), every other update is proposed as soon as it is released. The exceptions are Docker image digest updates and 0.x minors of the allowlisted `zizmorcore/zizmor-action`, which wait 3 days (see the table below). Vulnerability fixes never wait.
 
 A custom release age per update type was dropped on purpose: lock file maintenance has no release age, so it moved the lock files ahead of the versions the update PRs proposed, and those PRs then downgraded packages.
 
@@ -26,6 +26,7 @@ With the [`automerge`](presets/automerge.md) modifier (included in the default p
 | `patch` | Yes, after green CI |
 | `minor`, current version >= 1.0 | Yes, after green CI |
 | `minor`, current version 0.x | **No**: under SemVer a 0.x minor may break the API, so it stays a PR for review |
+| `minor` of `zizmorcore/zizmor-action` (allowlisted 0.x action) | Yes, once the release is 3 days old and CI is green |
 | GitHub Actions `pin`, `pinDigest`, `digest` | Yes |
 | `pin`, `pinDigest` of other dependencies ("Pin dependencies" PRs from `config:best-practices`) | Yes, after green CI |
 | Vulnerability fixes | Yes |
