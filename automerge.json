@@ -1,6 +1,6 @@
 {
   "$schema": "https://docs.renovatebot.com/renovate-schema.json",
-  "description": ["Modifier, list after github>gander-settings/renovate. Automerge patch updates, minor updates of stable (>= 1.0) dependencies, GitHub Actions pins and digests, Docker Hub image digests of versioned tags (after a 3-day release age), pins of other dependencies, weekly lock file maintenance and vulnerability fixes, once every check on the branch is green or skipped (not only the required ones). Major updates and minor updates of 0.x dependencies are never automerged."],
+  "description": ["Modifier, list after github>gander-settings/renovate. Automerge patch updates, minor updates of stable (>= 1.0) dependencies, GitHub Actions pins and digests, Docker Hub image digests of versioned tags (after a 3-day release age), pins of other dependencies, weekly lock file maintenance and vulnerability fixes, once every check on the branch is green or skipped (not only the required ones). Major updates are never automerged; minor updates of 0.x dependencies are not either, except zizmorcore/zizmor-action (allowlisted, 3-day release age)."],
   "platformAutomerge": false,
   "automergeStrategy": "merge-commit",
   "vulnerabilityAlerts": {
@@ -60,6 +60,14 @@
       "matchUpdateTypes": ["minor"],
       "matchCurrentVersion": "/^v?0\\./",
       "automerge": false
+    },
+    {
+      "description": "Allowlist: automerge 0.x minor updates of zizmorcore/zizmor-action once the release is 3 days old and CI is green. It is a CI-only linter that ships nothing to production, and new audits from a minor show up as red CI, which blocks the merge. Must stay after the 0.x block rule (later rules win). Covers only the action, not the ghcr.io/zizmorcore/zizmor image read from its version input",
+      "matchManagers": ["github-actions"],
+      "matchPackageNames": ["zizmorcore/zizmor-action"],
+      "matchUpdateTypes": ["minor"],
+      "automerge": true,
+      "minimumReleaseAge": "3 days"
     }
   ]
 }

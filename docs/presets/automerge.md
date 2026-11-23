@@ -6,7 +6,7 @@ nav_order: 3
 
 # `automerge`
 
-Modifier. Automerges the updates that CI can verify: patches, minor updates of stable (>= 1.0) dependencies, GitHub Actions pins and digests, Docker Hub image digests (3-day release age), pins of other dependencies, weekly lock file maintenance, and vulnerability fixes. Included in the default preset, so you rarely list it yourself.
+Modifier. Automerges the updates that CI can verify: patches, minor updates of stable (>= 1.0) dependencies, GitHub Actions pins and digests, Docker Hub image digests (3-day release age), pins of other dependencies, weekly lock file maintenance, vulnerability fixes, and 0.x minor updates of the allowlisted `zizmorcore/zizmor-action` (3-day release age). Included in the default preset, so you rarely list it yourself.
 
 ```json
 {
@@ -33,6 +33,7 @@ The snippet above is the same as `github>gander-settings/renovate` on its own.
 | | `lockFileMaintenance` → `automerge: true` | Stays within the existing constraints, so CI is the gate |
 | | `major` → `automerge: false` | Breaking by definition, always reviewed by a human |
 | | `minor` with current version 0.x → `automerge: false` | Under SemVer anything may change before 1.0, so a 0.x minor is treated like a major |
+| | `minor` of `zizmorcore/zizmor-action` (GitHub Actions) → `automerge: true`, `minimumReleaseAge: 3 days` | Allowlist exception to the 0.x rule: a CI-only linter that ships nothing to production, and new audits from a minor show up as red CI, which blocks the merge. The release age keeps a bad release from landing on day one. Listed last, because later rules win |
 | `vulnerabilityAlerts.automerge` | `true` | Security fixes land as soon as CI is green |
 | `platformAutomerge` | `false` | Renovate merges the PR itself, only when every check run and commit status on the branch is `success`, `skipped` or `neutral`. GitHub native auto-merge would wait for the required checks only and merge past a red optional job. The cost: the merge happens on Renovate's next run, not the moment CI turns green |
 | `automergeStrategy` | `merge-commit` | |
@@ -41,6 +42,8 @@ The snippet above is the same as `github>gander-settings/renovate` on its own.
 Automerge is only as good as your CI. Renovate merges on a later run and only when every check on the branch is green or skipped, so a repo without a test workflow on PRs gets no automerge at all. A failed, cancelled or timed-out check blocks the merge; making checks required in branch protection or a ruleset is still worth it, so people cannot merge past red CI either.
 
 Unversioned Docker tags (`latest`, `alpine`) have no version to age against, so their digest updates stay as PRs for review. The first pin of an image to its digest (`pinDigest`) is automerged without a release age.
+
+The zizmor-action allowlist covers the action only. The zizmor Docker image that Renovate reads from the action's `version` input (`ghcr.io/zizmorcore/zizmor`) is a separate dependency and its 0.x minors stay for review. A 0.x minor of the action keeps its own PR, outside the "all non-major dependencies" group.
 
 ## Source
 

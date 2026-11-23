@@ -20,7 +20,7 @@ List it **first** in `extends` and add modifiers after it.
 ## What you get
 
 - Everything in [`base`](base.md): `config:best-practices` (GitHub Actions and Docker images pinned to digests, weekly lock file maintenance, 3-day release age for npm only), one grouped PR for patch and stable minor updates, separate PRs for majors and 0.x minors, monorepo grouping, semantic commits, no dependency dashboard.
-- Everything in [`automerge`](automerge.md): patches, minor updates of stable (>= 1.0) dependencies, GitHub Actions pins and digests, and vulnerability fixes merge themselves once CI is green; major updates and 0.x minors never do.
+- Everything in [`automerge`](automerge.md): patches, minor updates of stable (>= 1.0) dependencies, GitHub Actions pins and digests, and vulnerability fixes merge themselves once CI is green; major updates never do, and 0.x minors only for the allowlisted `zizmorcore/zizmor-action` (3-day release age).
 
 ## Source
 
